@@ -1,595 +1,769 @@
 // ═══════════════════════════════════════════════════════════════════
 //  Armine's Western Armenian — app.js
-//  Pure vanilla JS, no dependencies
+//  Vanilla JS, no dependencies. Western Armenian (classical orthography).
 // ═══════════════════════════════════════════════════════════════════
 
-// ── VOCABULARY DATABASE ──────────────────────────────────────────
+// ── VOCABULARY ───────────────────────────────────────────────────
 const categories = {
-  colors: {
-    name: "Colors", icon: "\uD83C\uDFA8", color: "#E85D75", bg: "#FFF0F2",
-    words: [
-      { armenian: "\u053F\u0561\u0580\u0574\u056B\u0580", phonetic: "gar-MEER", english: "red", emoji: "\uD83D\uDD34" },
-      { armenian: "\u053F\u0561\u057A\u0578\u0575\u057F", phonetic: "ga-BOYD", english: "blue", emoji: "\uD83D\uDD35" },
-      { armenian: "\u0534\u0565\u0572\u056B\u0576", phonetic: "te-GHEEN", english: "yellow", emoji: "\uD83D\uDFE1" },
-      { armenian: "\u053F\u0561\u0576\u0561\u0579", phonetic: "ga-NAHCH", english: "green", emoji: "\uD83D\uDFE2" },
-      { armenian: "\u0544\u0561\u0576\u056B\u0577\u0561\u056F\u0561\u0563\u0578\u0575\u0576", phonetic: "mah-nee-shah-ga-KOYN", english: "purple", emoji: "\uD83D\uDFE3" },
-      { armenian: "\u054E\u0561\u0580\u0564\u0561\u0563\u0578\u0575\u0576", phonetic: "var-da-ga-KOYN", english: "pink", emoji: "\uD83E\uDE77" },
-      { armenian: "\u054D\u0587", phonetic: "SEV", english: "black", emoji: "\u26AB" },
-      { armenian: "\u054B\u0565\u0580\u0574\u0561\u056F", phonetic: "JEHR-mahg", english: "white", emoji: "\u26AA" },
-      { armenian: "\u0546\u0561\u0580\u056B\u0576\u0573\u0561\u0563\u0578\u0575\u0576", phonetic: "nah-rinch-a-ga-KOYN", english: "orange", emoji: "\uD83D\uDFE0" },
-      { armenian: "\u0547\u0561\u0563\u0561\u0563\u0578\u0575\u0576", phonetic: "shah-ga-ga-KOYN", english: "brown", emoji: "\uD83D\uDFE4" },
-    ]
-  },
-  animals: {
-    name: "Animals", icon: "\uD83D\uDC3E", color: "#7C5CBF", bg: "#F3EEFF",
-    words: [
-      { armenian: "\u0547\u0578\u0582\u0576", phonetic: "SHOON", english: "dog", emoji: "\uD83D\uDC15" },
-      { armenian: "\u053F\u0561\u057F\u0578\u0582", phonetic: "ga-DOO", english: "cat", emoji: "\uD83D\uDC31" },
-      { armenian: "\u0546\u0561\u057A\u0561\u057D\u057F\u0561\u056F", phonetic: "nah-bahs-DAHG", english: "rabbit", emoji: "\uD83D\uDC30" },
-      { armenian: "\u0553\u056B\u0572", phonetic: "PEEGH", english: "elephant", emoji: "\uD83D\uDC18" },
-      { armenian: "\u0531\u057C\u056B\u0582\u056E", phonetic: "ah-RYOODZ", english: "lion", emoji: "\uD83E\uDD81" },
-      { armenian: "\u053F\u0561\u057A\u056B\u056F", phonetic: "ga-BEEG", english: "monkey", emoji: "\uD83D\uDC12" },
-      { armenian: "\u0541\u056B", phonetic: "TSEE", english: "horse", emoji: "\uD83D\uDC34" },
-      { armenian: "\u053F\u0578\u057E", phonetic: "GOV", english: "cow", emoji: "\uD83D\uDC04" },
-      { armenian: "\u0540\u0561\u057E", phonetic: "HAV", english: "chicken", emoji: "\uD83D\uDC14" },
-      { armenian: "\u0539\u0580\u0579\u0578\u0582\u0576", phonetic: "tehr-CHOON", english: "bird", emoji: "\uD83D\uDC26" },
-      { armenian: "\u0541\u0578\u0582\u056F", phonetic: "TSOOG", english: "fish", emoji: "\uD83D\uDC1F" },
-      { armenian: "\u053F\u0580\u056B\u0561", phonetic: "geh-RYAH", english: "turtle", emoji: "\uD83D\uDC22" },
-      { armenian: "\u0533\u0578\u0580\u057F", phonetic: "KORD", english: "frog", emoji: "\uD83D\uDC38" },
-      { armenian: "\u0531\u0580\u057B", phonetic: "AHRDCH", english: "bear", emoji: "\uD83D\uDC3B" },
-      { armenian: "\u0531\u0572\u0578\u0582\u0567\u057D", phonetic: "ah-ghoo-YES", english: "fox", emoji: "\uD83E\uDD8A" },
-      { armenian: "\u054A\u0561\u057F\u056B\u056F", phonetic: "bah-DEEG", english: "duck", emoji: "\uD83E\uDD86" },
-      { armenian: "\u054B\u0578\u0582\u057F\u056B\u056F", phonetic: "joo-DEEG", english: "chick", emoji: "\uD83D\uDC25" },
-      { armenian: "\u054E\u056B\u0577\u0561\u057A", phonetic: "vee-SHAHP", english: "dragon", emoji: "\uD83D\uDC09" },
-      { armenian: "\u0537\u0577", phonetic: "ESH", english: "donkey", emoji: "\uD83E\uDD93" },
-      { armenian: "\u0548\u0579\u056D\u0561\u0580", phonetic: "voch-KHAR", english: "sheep", emoji: "\uD83D\uDC11" },
-      { armenian: "\u0532\u0578\u0582", phonetic: "POO", english: "owl", emoji: "\uD83E\uDD89" },
-    ]
-  },
-  family: {
-    name: "Family", icon: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67", color: "#2E86AB", bg: "#E8F4FD",
-    words: [
-      { armenian: "\u0544\u0561\u0574\u0561", phonetic: "MAH-mah", english: "mother/mom", emoji: "\uD83D\uDC69" },
-      { armenian: "\u054A\u0561\u057A\u0561", phonetic: "BAH-bah", english: "father/dad", emoji: "\uD83D\uDC68" },
-      { armenian: "\u0544\u0561\u0576\u0578\u0582\u056F", phonetic: "mah-NOOG", english: "baby", emoji: "\uD83D\uDC76" },
-      { armenian: "\u0554\u0578\u0575\u0580", phonetic: "KUYR", english: "sister", emoji: "\uD83D\uDC67" },
-      { armenian: "\u0535\u0572\u0562\u0561\u0575\u0580", phonetic: "yegh-PAHR", english: "brother", emoji: "\uD83D\uDC66" },
-      { armenian: "\u0544\u0565\u056E\u0574\u0561\u0574\u0561", phonetic: "medz-MAH-mah", english: "grandmother", emoji: "\uD83D\uDC75" },
-      { armenian: "\u0544\u0565\u056E\u057A\u0561\u057A\u0561", phonetic: "medz-BAH-bah", english: "grandfather", emoji: "\uD83D\uDC74" },
-      { armenian: "\u0538\u0576\u057F\u0561\u0576\u056B\u0584", phonetic: "un-dah-NEEK", english: "family", emoji: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67" },
-    ]
-  },
-  bodyParts: {
-    name: "Body Parts", icon: "\uD83D\uDD90\uFE0F", color: "#F18F01", bg: "#FFF5E6",
-    words: [
-      { armenian: "\u0531\u0579\u0584", phonetic: "AHCHK", english: "eye", emoji: "\uD83D\uDC41\uFE0F" },
-      { armenian: "\u0554\u056B\u0569", phonetic: "KEET", english: "nose", emoji: "\uD83D\uDC43" },
-      { armenian: "\u0532\u0565\u0580\u0561\u0576", phonetic: "peh-RAHN", english: "mouth", emoji: "\uD83D\uDC44" },
-      { armenian: "\u0541\u0565\u057C\u0584", phonetic: "TSEHRK", english: "hand", emoji: "\u270B" },
-      { armenian: "\u0548\u057F\u0584", phonetic: "VODK", english: "foot", emoji: "\uD83E\uDDB6" },
-      { armenian: "\u0533\u056C\u0578\u0582\u056D", phonetic: "KULOOKH", english: "head", emoji: "\uD83D\uDC64" },
-      { armenian: "\u0544\u0561\u0566", phonetic: "MAHZ", english: "hair", emoji: "\uD83D\uDC87" },
-      { armenian: "\u0531\u056F\u0561\u0576\u057B", phonetic: "ah-GAHNCH", english: "ear", emoji: "\uD83D\uDC42" },
-      { armenian: "\u0531\u057F\u0561\u0574", phonetic: "ah-DAHM", english: "tooth", emoji: "\uD83E\uDDB7" },
-      { armenian: "\u0553\u0578\u0580", phonetic: "POR", english: "tummy", emoji: "\uD83E\uDEBB" },
-    ]
-  },
-  food: {
-    name: "Food", icon: "\uD83C\uDF4E", color: "#2ECC71", bg: "#EAFAF1",
-    words: [
-      { armenian: "\u054B\u0578\u0582\u0580", phonetic: "JOOR", english: "water", emoji: "\uD83D\uDCA7" },
-      { armenian: "\u053F\u0561\u0569", phonetic: "GAHT", english: "milk", emoji: "\uD83E\uDD5B" },
-      { armenian: "\u053D\u0576\u0571\u0578\u0580", phonetic: "KHNDZOR", english: "apple", emoji: "\uD83C\uDF4E" },
-      { armenian: "\u054A\u0561\u0576\u0561\u0576", phonetic: "bah-NAHN", english: "banana", emoji: "\uD83C\uDF4C" },
-      { armenian: "\u0540\u0561\u0581", phonetic: "HAHTS", english: "bread", emoji: "\uD83C\uDF5E" },
-      { armenian: "\u054A\u0561\u0576\u056B\u0580", phonetic: "bah-NEER", english: "cheese", emoji: "\uD83E\uDDC0" },
-      { armenian: "\u054A\u0561\u0572\u057A\u0561\u0572\u0561\u056F", phonetic: "bagh-bah-GHAHK", english: "ice cream", emoji: "\uD83C\uDF68" },
-      { armenian: "\u0541\u0578\u0582\u0576\u0564", phonetic: "hav-GEET", english: "egg", emoji: "\uD83E\uDD5A" },
-      { armenian: "\u0531\u057A\u0578\u0582\u0580", phonetic: "ah-BOOR", english: "soup", emoji: "\uD83C\uDF72" },
-      { armenian: "\u0539\u0578\u057E\u0561\u056C\u056B\u056F", phonetic: "toh-vah-LEEG", english: "cookie", emoji: "\uD83C\uDF6A" },
-      { armenian: "\u0533\u0561\u0566\u0561\u0580", phonetic: "gah-ZAHR", english: "carrot", emoji: "\uD83E\uDD55" },
-    ]
-  },
   basics: {
-    name: "Basics", icon: "\u2B50", color: "#F39C12", bg: "#FEF9E7",
+    name: "Greetings & basics", icon: "👋", color: "#C99A3A",
     words: [
-      { armenian: "\u0531\u0575\u0578", phonetic: "AH-yo", english: "yes", emoji: "\u2705" },
-      { armenian: "\u0548\u0579", phonetic: "VOCH", english: "no", emoji: "\u274C" },
-      { armenian: "\u0532\u0561\u0580\u0587", phonetic: "pah-REV", english: "hello", emoji: "\uD83D\uDC4B" },
-      { armenian: "\u0551\u057F\u0565\u057D\u0578\u0582\u0569\u056B\u0582\u0576", phonetic: "tse-deh-SOO-tyoon", english: "goodbye", emoji: "\uD83D\uDC4B" },
-      { armenian: "\u0547\u0576\u0578\u0580\u0570\u0561\u056F\u0561\u056C\u0578\u0582\u0569\u056B\u0582\u0576", phonetic: "shnor-hah-gah-loo-TYOON", english: "thank you", emoji: "\uD83D\uDE4F" },
-      { armenian: "\u054D\u056B\u0580\u0578\u0582\u0576", phonetic: "see-ROON", english: "love/cute", emoji: "\u2764\uFE0F" },
-      { armenian: "\u0532\u0561\u0580\u056B \u0561\u057C\u0561\u0582\u0578\u057F", phonetic: "PAH-ree ah-rah-VOD", english: "good morning", emoji: "\uD83C\uDF1E" },
-      { armenian: "\u053D\u0576\u0564\u0580\u0565\u0574", phonetic: "KUNT-rehm", english: "please", emoji: "\uD83D\uDE4F" },
-      { armenian: "\u0532\u0561\u0580\u056B \u0563\u056B\u0577\u0565\u0580", phonetic: "PAH-ree kee-SHER", english: "good night", emoji: "\uD83C\uDF19" },
-    ]
-  },
-  toys: {
-    name: "Toys", icon: "\uD83E\uDDF8", color: "#E74C3C", bg: "#FDEDEC",
-    words: [
-      { armenian: "\u053D\u0561\u0572\u0561\u056C\u056B\u0584", phonetic: "khah-ghah-LEEK", english: "toy", emoji: "\uD83E\uDDF8" },
-      { armenian: "\u0533\u0576\u0564\u0561\u056F", phonetic: "kn-TAG", english: "ball", emoji: "\u26BD" },
-      { armenian: "\u054F\u056B\u056F\u0576\u056B\u056F", phonetic: "deeg-NEEG", english: "doll", emoji: "\uD83E\uDE86" },
-      { armenian: "\u0533\u056B\u0580\u0584", phonetic: "KEERK", english: "book", emoji: "\uD83D\uDCD6" },
-      { armenian: "\u0544\u0561\u057F\u056B\u057F", phonetic: "mah-DEED", english: "crayon", emoji: "\uD83D\uDD8D\uFE0F" },
-      { armenian: "\u053D\u0578\u0580\u0561\u0576\u0561\u0580\u0564\u056B\u056F", phonetic: "kho-rah-nahr-DEEG", english: "blocks", emoji: "\uD83E\uDDF1" },
-      { armenian: "\u053B\u0576\u0584\u0576\u0561\u0577\u0561\u0580\u056A", phonetic: "eenk-nah-SHAHRJ", english: "car (toy)", emoji: "\uD83D\uDE97" },
-      { armenian: "\u0553\u0578\u0582\u0579\u056B\u056F", phonetic: "poo-CHEEG", english: "balloon", emoji: "\uD83C\uDF88" },
-    ]
-  },
-  nature: {
-    name: "Nature", icon: "\uD83C\uDF38", color: "#1ABC9C", bg: "#E8F8F5",
-    words: [
-      { armenian: "\u0531\u0580\u0587", phonetic: "ah-REV", english: "sun", emoji: "\u2600\uFE0F" },
-      { armenian: "\u053C\u0578\u0582\u057D\u056B\u0576", phonetic: "loo-SEEN", english: "moon", emoji: "\uD83C\uDF19" },
-      { armenian: "\u0531\u057D\u057F\u0572", phonetic: "ahst-GH", english: "star", emoji: "\u2B50" },
-      { armenian: "\u0531\u0574\u057A", phonetic: "AHMP", english: "cloud", emoji: "\u2601\uFE0F" },
-      { armenian: "\u0531\u0576\u0571\u0587", phonetic: "ahn-DZEV", english: "rain", emoji: "\uD83C\uDF27\uFE0F" },
-      { armenian: "\u053E\u0561\u057C", phonetic: "DZAHR", english: "tree", emoji: "\uD83C\uDF33" },
-      { armenian: "\u053E\u0561\u0572\u056B\u056F", phonetic: "dzah-GHEEK", english: "flower", emoji: "\uD83C\uDF3B" },
-      { armenian: "\u054B\u0578\u0582\u0580", phonetic: "JOOR", english: "water", emoji: "\uD83C\uDF0A" },
-      { armenian: "\u0541\u056B\u0582\u0576", phonetic: "TSYOON", english: "snow", emoji: "\u2744\uFE0F" },
-    ]
-  },
-  actions: {
-    name: "Actions", icon: "\uD83C\uDFC3", color: "#9B59B6", bg: "#F4ECF7",
-    words: [
-      { armenian: "\u054E\u0561\u0566\u0565\u056C", phonetic: "vah-ZEL", english: "run", emoji: "\uD83C\uDFC3" },
-      { armenian: "\u0554\u0561\u056C\u0565\u056C", phonetic: "kah-LEL", english: "walk", emoji: "\uD83D\uDEB6" },
-      { armenian: "\u0551\u0561\u057F\u056F\u0565\u056C", phonetic: "tsahd-GEL", english: "jump", emoji: "\uD83E\uDD38" },
-      { armenian: "\u054A\u0561\u0580\u0565\u056C", phonetic: "bah-REL", english: "dance", emoji: "\uD83D\uDC83" },
-      { armenian: "\u0535\u0580\u0563\u0565\u056C", phonetic: "yer-KEL", english: "sing", emoji: "\uD83C\uDFA4" },
-      { armenian: "\u0548\u0582\u057F\u0565\u056C", phonetic: "oo-DEL", english: "eat", emoji: "\uD83C\uDF7D\uFE0F" },
-      { armenian: "\u053D\u0574\u0565\u056C", phonetic: "khuh-MEL", english: "drink", emoji: "\uD83E\uDD64" },
-      { armenian: "\u0554\u0576\u0565\u056C", phonetic: "kuh-NEL", english: "sleep", emoji: "\uD83D\uDE34" },
-      { armenian: "\u053D\u0561\u0572\u0561\u056C", phonetic: "khah-GHAHL", english: "play", emoji: "\uD83C\uDFAE" },
-    ]
-  },
-  clothes: {
-    name: "Clothes", icon: "\uD83D\uDC55", color: "#3498DB", bg: "#EBF5FB",
-    words: [
-      { armenian: "\u0547\u0561\u057A\u056B\u056F", phonetic: "shah-BEEG", english: "shirt", emoji: "\uD83D\uDC55" },
-      { armenian: "\u054E\u0565\u0580\u0561\u0580\u056F\u0578\u0582", phonetic: "veh-rahr-GOO", english: "jacket", emoji: "\uD83E\uDDE5" },
-      { armenian: "\u0533\u056C\u056D\u0561\u0580\u056F", phonetic: "kul-KHAHRG", english: "hat", emoji: "\uD83E\uDDE2" },
-      { armenian: "\u053F\u0585\u0577\u056B\u056F", phonetic: "GO-sheeg", english: "shoes", emoji: "\uD83D\uDC5F" },
-      { armenian: "\u0533\u0578\u0582\u056C\u057A\u0561", phonetic: "KOOL-bah", english: "socks", emoji: "\uD83E\uDDE6" },
-      { armenian: "\u054F\u0561\u0562\u0561\u057F", phonetic: "dah-BAHD", english: "pants", emoji: "\uD83D\uDC56" },
-      { armenian: "\u0547\u0578\u0580", phonetic: "SHOR", english: "dress", emoji: "\uD83D\uDC57" },
-    ]
-  },
-  numbers: {
-    name: "Numbers", icon: "\uD83D\uDD22", color: "#E67E22", bg: "#FDF2E9",
-    words: [
-      { armenian: "\u0544\u0567\u056F", phonetic: "MEG", english: "one (1)", emoji: "1\uFE0F\u20E3" },
-      { armenian: "\u0535\u0580\u056F\u0578\u0582", phonetic: "yer-GOO", english: "two (2)", emoji: "2\uFE0F\u20E3" },
-      { armenian: "\u0535\u0580\u0565\u0584", phonetic: "ye-REK", english: "three (3)", emoji: "3\uFE0F\u20E3" },
-      { armenian: "\u0549\u0578\u0580\u057D", phonetic: "CHORS", english: "four (4)", emoji: "4\uFE0F\u20E3" },
-      { armenian: "\u0540\u056B\u0576\u0563", phonetic: "HEENG", english: "five (5)", emoji: "5\uFE0F\u20E3" },
-      { armenian: "\u054E\u0565\u0581", phonetic: "VETS", english: "six (6)", emoji: "6\uFE0F\u20E3" },
-      { armenian: "\u0535\u0578\u0569", phonetic: "YOT", english: "seven (7)", emoji: "7\uFE0F\u20E3" },
-      { armenian: "\u0548\u0582\u0569", phonetic: "OOT", english: "eight (8)", emoji: "8\uFE0F\u20E3" },
-      { armenian: "\u053B\u0576\u0568", phonetic: "EE-nuh", english: "nine (9)", emoji: "9\uFE0F\u20E3" },
-      { armenian: "\u054F\u0561\u057D\u0568", phonetic: "DAH-suh", english: "ten (10)", emoji: "\uD83D\uDD1F" },
-    ]
-  },
-  shapes: {
-    name: "Shapes", icon: "\uD83D\uDD37", color: "#2980B9", bg: "#EAF2F8",
-    words: [
-      { armenian: "\u0547\u0580\u057B\u0561\u0576\u0561\u056F", phonetic: "shur-jah-NAHG", english: "circle", emoji: "\uD83D\uDD35" },
-      { armenian: "\u0554\u0561\u057C\u0561\u056F\u0578\u0582\u057D\u056B", phonetic: "kah-rah-goo-SEE", english: "square", emoji: "\uD83D\uDFE5" },
-      { armenian: "\u0535\u057C\u0561\u0576\u056F\u056B\u0582\u0576", phonetic: "yeh-rahn-GYOON", english: "triangle", emoji: "\uD83D\uDD3A" },
-      { armenian: "\u0531\u057D\u057F\u0572", phonetic: "AHST-gh", english: "star", emoji: "\u2B50" },
-      { armenian: "\u054D\u056B\u0580\u057F", phonetic: "SEERT", english: "heart", emoji: "\u2764\uFE0F" },
-    ]
-  },
-  house: {
-    name: "House", icon: "\uD83C\uDFE0", color: "#16A085", bg: "#E8F6F3",
-    words: [
-      { armenian: "\u054F\u0578\u0582\u0576", phonetic: "DOON", english: "house", emoji: "\uD83C\uDFE0" },
-      { armenian: "\u0534\u0578\u0582\u057C", phonetic: "TOOR", english: "door", emoji: "\uD83D\uDEAA" },
-      { armenian: "\u054A\u0561\u057F\u0578\u0582\u0570\u0561\u0576", phonetic: "bah-doo-HAHN", english: "window", emoji: "\uD83E\uDE9F" },
-      { armenian: "\u0544\u0561\u0570\u0573\u0561\u056F\u0561\u056C", phonetic: "mah-hah-gah-GAHL", english: "bed", emoji: "\uD83D\uDECF\uFE0F" },
-      { armenian: "\u0531\u0569\u0578\u057C", phonetic: "ah-TOR", english: "chair", emoji: "\uD83E\uDE91" },
-      { armenian: "\u054D\u0565\u0572\u0561\u0576", phonetic: "seh-GHAHN", english: "table", emoji: "\uD83E\uDE91" },
-      { armenian: "\u053C\u0561\u0574\u057A\u0561\u0580", phonetic: "lahm-BAHR", english: "lamp", emoji: "\uD83D\uDCA1" },
-    ]
-  },
-  transport: {
-    name: "Transport", icon: "\uD83D\uDE97", color: "#C0392B", bg: "#FDEDEC",
-    words: [
-      { armenian: "\u053B\u0576\u0584\u0576\u0561\u0577\u0561\u0580\u056A", phonetic: "eenk-nah-SHAHRJ", english: "car", emoji: "\uD83D\uDE97" },
-      { armenian: "\u0540\u0561\u0576\u0580\u0561\u056F\u0561\u057C\u0584", phonetic: "hahn-rah-KAHRK", english: "bus", emoji: "\uD83D\uDE8C" },
-      { armenian: "\u053F\u0561\u0569\u057D\u0561", phonetic: "kah-TSA", english: "train", emoji: "\uD83D\uDE82" },
-      { armenian: "\u0555\u0564\u0561\u0576\u0561\u057E", phonetic: "oh-tah-NAHV", english: "airplane", emoji: "\u2708\uFE0F" },
-      { armenian: "\u0546\u0561\u057E\u0561\u056F", phonetic: "nah-VAHG", english: "boat", emoji: "\u26F5" },
-      { armenian: "\u0540\u0565\u056E\u0561\u0576\u056B\u057E", phonetic: "heh-tsah-NEEV", english: "bicycle", emoji: "\uD83D\uDEB2" },
+      { armenian: "Բարեւ", phonetic: "pah-REV", english: "hello", emoji: "👋" },
+      { armenian: "Ցտեսութիւն", phonetic: "tsuh-deh-soo-TYOON", english: "goodbye", emoji: "🚪" },
+      { armenian: "Այո", phonetic: "AH-yo", english: "yes", emoji: "✅" },
+      { armenian: "Ոչ", phonetic: "VOCH", english: "no", emoji: "❌" },
+      { armenian: "Շնորհակալութիւն", phonetic: "shnor-hah-gah-loo-TYOON", english: "thank you", emoji: "🙏" },
+      { armenian: "Խնդրեմ", phonetic: "khunt-REM", english: "please / you're welcome", emoji: "🤝" },
+      { armenian: "Ներողութիւն", phonetic: "neh-ro-ghoo-TYOON", english: "sorry / excuse me", emoji: "🙇" },
+      { armenian: "Բարի լոյս", phonetic: "PAH-ree LOOYS", english: "good morning", emoji: "🌞" },
+      { armenian: "Բարի իրիկուն", phonetic: "PAH-ree ee-ree-GOON", english: "good evening", emoji: "🌆" },
+      { armenian: "Բարի գիշեր", phonetic: "PAH-ree kee-SHER", english: "good night", emoji: "🌙" },
+      { armenian: "Ինչպէ՞ս ես", phonetic: "eench-BES es", english: "How are you?", emoji: "🙂" },
+      { armenian: "Լաւ եմ", phonetic: "LAHV em", english: "I'm well", emoji: "👍" },
+      { armenian: "Անունդ ի՞նչ է", phonetic: "ah-NOONT eench eh", english: "What's your name?", emoji: "🏷️" },
+      { armenian: "Անունս … է", phonetic: "ah-NOONS … eh", english: "My name is …", emoji: "🙋" },
+      { armenian: "Բարի եկաք", phonetic: "PAH-ree ye-GAHK", english: "welcome", emoji: "🤗" },
+      { armenian: "Անուշ ըլլայ", phonetic: "ah-NOOSH ul-LAH", english: "bon appétit", emoji: "🍽️" },
+      { armenian: "Շնորհաւոր", phonetic: "shnor-hah-VOR", english: "congratulations", emoji: "🎉" },
+      { armenian: "Սիրուն", phonetic: "see-ROON", english: "pretty / cute", emoji: "💕" },
     ]
   },
   dailyPhrases: {
-    name: "Daily Phrases", icon: "\uD83D\uDCAC", color: "#8E44AD", bg: "#F5EEF8",
+    name: "Everyday phrases", icon: "💬", color: "#8F5586",
     words: [
-      { armenian: "\u0535\u056F\u0578\u0582\u0580 \u056F\u0585\u0577\u056B\u056F\u0576\u0565\u0580\u0564 \u0570\u0561\u0563\u0576\u056B\u0576\u0584", phonetic: "ye-GOOR GO-sheeg-nert hahg-NEENK", english: "Let's put your shoes on", emoji: "\uD83D\uDC5F" },
-      { armenian: "\u0548\u0582\u0580 \u0567 \u0563\u0576\u0564\u0561\u056F\u0568", phonetic: "OOR eh kn-DAH-guh", english: "Where is the ball?", emoji: "\u26BD" },
-      { armenian: "\u053F\u0568 \u057D\u056B\u0580\u0565\u0574 \u0584\u0565\u0566", phonetic: "guh see-REM KEZ", english: "I love you", emoji: "\u2764\uFE0F" },
-      { armenian: "\u0535\u056F\u0578\u0582\u0580 \u0578\u0582\u057F\u0565\u0576\u0584", phonetic: "ye-GOOR oo-DENK", english: "Let's eat", emoji: "\uD83C\uDF7D\uFE0F" },
-      { armenian: "\u054B\u0578\u0582\u0580 \u056F\u0568 \u0578\u0582\u0566\u0565\u057D", phonetic: "JOOR guh oo-ZES", english: "Do you want water?", emoji: "\uD83D\uDCA7" },
-      { armenian: "\u053F\u0561\u0569 \u056F\u0568 \u0578\u0582\u0566\u0565\u057D", phonetic: "GAHT guh oo-ZES", english: "Do you want milk?", emoji: "\uD83E\uDD5B" },
-      { armenian: "\u0535\u056F\u0578\u0582\u0580 \u0584\u0576\u0565\u0576\u0584", phonetic: "ye-GOOR kuh-NENK", english: "Let's sleep", emoji: "\uD83D\uDE34" },
-      { armenian: "\u0532\u0561\u0581 \u0561\u0579\u0584\u0565\u0580\u0564", phonetic: "PAHTS ahch-KERT", english: "Open your eyes", emoji: "\uD83D\uDC40" },
-      { armenian: "\u0535\u056F\u0578\u0582\u0580 \u056D\u0561\u0572\u0561\u0576\u0584", phonetic: "ye-GOOR KHAH-ghahnk", english: "Let's play", emoji: "\uD83C\uDFAE" },
-      { armenian: "\u054F\u0578\u0582\u0580 \u056B\u0576\u0579 \u056F\u0561\u0576 \u0570\u0578\u057D", phonetic: "DOOR eench GAHN hos", english: "Come here", emoji: "\uD83D\uDC4B" },
-      { armenian: "\u0531\u0574\u0567\u0576 \u056B\u0576\u0579 \u0567", phonetic: "ah-MEN eench EH", english: "Everything is fine", emoji: "\uD83D\uDC4D" },
-      { armenian: "\u053F\u0568 \u0570\u0561\u057D\u056F\u0576\u0561\u0574", phonetic: "guh hahs-guh-NAHM", english: "I understand", emoji: "\uD83D\uDCA1" },
-      { armenian: "\u0531\u0575\u0578 \u0565\u057D", phonetic: "AH-yo YES", english: "That's right/Yes!", emoji: "\u2705" },
-      { armenian: "\u0535\u056F\u0578\u0582\u0580 \u056C\u0578\u0572\u0578\u0582\u0561\u0576\u0584", phonetic: "ye-GOOR loh-ghoo-AHNK", english: "Let's take a bath", emoji: "\uD83D\uDEC1" },
-      { armenian: "\u054A\u0561\u057A\u0561\u0576 \u0578\u0582\u0580 \u0567", phonetic: "BAH-bahn OOR eh", english: "Where is daddy?", emoji: "\uD83D\uDC68" },
-      { armenian: "\u0544\u0561\u0574\u0561\u0576 \u0578\u0582\u0580 \u0567", phonetic: "MAH-mahn OOR eh", english: "Where is mommy?", emoji: "\uD83D\uDC69" },
-      { armenian: "\u054F\u0578\u0582\u0580 \u056B\u0576\u056E\u056B \u0563\u0578\u0580\u056E\u0565\u0581\u056B\u0580", phonetic: "DOOR een-TSEE gor-dze-TSEER", english: "You did great!", emoji: "\uD83C\uDF1F" },
-      { armenian: "\u053D\u0561\u0572\u0561\u056C\u0578\u0582 \u056A\u0561\u0574\u0561\u0576\u0561\u056F\u0568", phonetic: "khah-ghah-LOO jah-mah-NAH-guh", english: "It's playtime!", emoji: "\uD83C\uDF89" },
-      { armenian: "\u0553\u0578\u0584\u0580 \u056B\u056F \u057A\u0561\u057F\u0574\u0578\u0582\u0569\u056B\u0582\u0576 \u057A\u0561\u057F\u0574\u0567\u0576\u0584", phonetic: "POKR eeg bahd-moo-TYOON bahd-MENK", english: "Let's tell a little story", emoji: "\uD83D\uDCD6" },
-      { armenian: "\u0532\u0561\u0580\u056B \u0563\u056B\u0577\u0565\u0580 \u057D\u056B\u0580\u0578\u0582\u0576\u056B\u057D", phonetic: "PAH-ree kee-SHER see-roo-NEES", english: "Good night, sweetie", emoji: "\uD83C\uDF19" },
+      { armenian: "Հոս եկուր", phonetic: "HOS ye-GOOR", english: "Come here", emoji: "👋" },
+      { armenian: "Երթանք", phonetic: "yer-TAHNK", english: "Let's go", emoji: "🚶" },
+      { armenian: "Սպասէ", phonetic: "suh-bah-SEH", english: "Wait", emoji: "✋" },
+      { armenian: "Նայէ", phonetic: "nah-YEH", english: "Look", emoji: "👀" },
+      { armenian: "Նստէ", phonetic: "nuhs-DEH", english: "Sit down", emoji: "🪑" },
+      { armenian: "Զգոյշ", phonetic: "zuh-KOOYSH", english: "Careful!", emoji: "⚠️" },
+      { armenian: "Հերիք է", phonetic: "heh-REEK eh", english: "That's enough", emoji: "🛑" },
+      { armenian: "Ապրիս", phonetic: "ahb-REES", english: "Well done!", emoji: "🌟" },
+      { armenian: "Կը սիրեմ քեզ", phonetic: "guh see-REM KEZ", english: "I love you", emoji: "❤️" },
+      { armenian: "Ամէն ինչ լաւ է", phonetic: "ah-MEN eench LAHV eh", english: "Everything is fine", emoji: "👍" },
+      { armenian: "Կը հասկնամ", phonetic: "guh hahs-guh-NAHM", english: "I understand", emoji: "💡" },
+      { armenian: "Չեմ հասկնար", phonetic: "CHEM hahs-guh-NAHR", english: "I don't understand", emoji: "🤷" },
+      { armenian: "Հայերէն կը խօսի՞ս", phonetic: "hah-yeh-REN guh kho-SEES", english: "Do you speak Armenian?", emoji: "🗣️" },
+      { armenian: "Կամաց խօսէ", phonetic: "gah-MAHTS kho-SEH", english: "Speak slowly", emoji: "🐢" },
+      { armenian: "Ասիկա ի՞նչ է", phonetic: "ah-see-GAH eench eh", english: "What is this?", emoji: "👉" },
+      { armenian: "Ո՞ւր կ'երթաս", phonetic: "OOR ger-TAHS", english: "Where are you going?", emoji: "🧭" },
+      { armenian: "Քանի՞ է", phonetic: "kah-NEE eh", english: "How much is it?", emoji: "💵" },
+      { armenian: "Անօթի եմ", phonetic: "ah-no-TEE em", english: "I'm hungry", emoji: "🍽️" },
+      { armenian: "Ջուր կ'ուզե՞ս", phonetic: "JOOR goo-ZES", english: "Do you want water?", emoji: "💧" },
+      { armenian: "Կաթ կ'ուզե՞ս", phonetic: "GAHT goo-ZES", english: "Do you want milk?", emoji: "🥛" },
+      { armenian: "Եկուր ուտենք", phonetic: "ye-GOOR oo-DENK", english: "Let's eat", emoji: "🍴" },
+      { armenian: "Եկուր խաղանք", phonetic: "ye-GOOR khah-GHAHNK", english: "Let's play", emoji: "🎮" },
+      { armenian: "Եկուր քնանանք", phonetic: "ye-GOOR kuh-nah-NAHNK", english: "Let's sleep", emoji: "😴" },
+      { armenian: "Եկուր լոգնանք", phonetic: "ye-GOOR lok-NAHNK", english: "Let's take a bath", emoji: "🛁" },
+      { armenian: "Եկուր կօշիկներդ հագնինք", phonetic: "ye-GOOR GO-sheeg-nert hahk-NEENK", english: "Let's put your shoes on", emoji: "👟" },
+      { armenian: "Ո՞ւր է գնդակը", phonetic: "OOR eh kn-DAH-guh", english: "Where is the ball?", emoji: "⚽" },
+      { armenian: "Բաց աչքերդ", phonetic: "PAHTS ahch-KERT", english: "Open your eyes", emoji: "👁️" },
+      { armenian: "Պապան ո՞ւր է", phonetic: "BAH-bahn OOR eh", english: "Where is daddy?", emoji: "👨" },
+      { armenian: "Մաման ո՞ւր է", phonetic: "MAH-mahn OOR eh", english: "Where is mommy?", emoji: "👩" },
+      { armenian: "Խաղալու ժամանակն է", phonetic: "khah-ghah-LOO jah-mah-NAHGN eh", english: "It's playtime", emoji: "🎈" },
+      { armenian: "Պզտիկ պատմութիւն մը պատմենք", phonetic: "buz-DEEG bahd-moo-TYOON muh bahd-MENK", english: "Let's tell a little story", emoji: "📖" },
+      { armenian: "Բարի գիշեր, սիրունս", phonetic: "PAH-ree kee-SHER see-ROONS", english: "Good night, sweetie", emoji: "🌙" },
     ]
-  }
+  },
+  questions: {
+    name: "Question words", icon: "❓", color: "#486E9C",
+    words: [
+      { armenian: "Ի՞նչ", phonetic: "EENCH", english: "what", emoji: "❓" },
+      { armenian: "Ո՞ւր", phonetic: "OOR", english: "where", emoji: "📍" },
+      { armenian: "Ո՞վ", phonetic: "OV", english: "who", emoji: "👤" },
+      { armenian: "Ե՞րբ", phonetic: "YERP", english: "when", emoji: "⏰" },
+      { armenian: "Ինչո՞ւ", phonetic: "een-CHOO", english: "why", emoji: "🤔" },
+      { armenian: "Ինչպէ՞ս", phonetic: "eench-BES", english: "how", emoji: "🛠️" },
+      { armenian: "Քանի՞", phonetic: "kah-NEE", english: "how many / how much", emoji: "🔢" },
+    ]
+  },
+  feelings: {
+    name: "Feelings", icon: "😊", color: "#C25B72",
+    words: [
+      { armenian: "Ուրախ", phonetic: "oo-RAHKH", english: "happy", emoji: "😊" },
+      { armenian: "Տխուր", phonetic: "duh-KHOOR", english: "sad", emoji: "😢" },
+      { armenian: "Յոգնած", phonetic: "hok-NAHDZ", english: "tired", emoji: "😴" },
+      { armenian: "Անօթի", phonetic: "ah-no-TEE", english: "hungry", emoji: "🍽️" },
+      { armenian: "Ծարաւ", phonetic: "dzah-RAHV", english: "thirsty", emoji: "💧" },
+      { armenian: "Հիւանդ", phonetic: "hee-VAHNT", english: "sick", emoji: "🤒" },
+      { armenian: "Վախցած", phonetic: "vahkh-TSAHDZ", english: "scared", emoji: "😨" },
+      { armenian: "Զայրացած", phonetic: "zay-rah-TSAHDZ", english: "angry", emoji: "😠" },
+      { armenian: "Սիրահարուած", phonetic: "see-rah-hahr-VAHDZ", english: "in love", emoji: "😍" },
+    ]
+  },
+  describing: {
+    name: "Describing things", icon: "⚖️", color: "#8A5D9E",
+    words: [
+      { armenian: "Մեծ", phonetic: "MEDZ", english: "big", emoji: "🐘" },
+      { armenian: "Պզտիկ", phonetic: "buz-DEEG", english: "small", emoji: "🐜" },
+      { armenian: "Լաւ", phonetic: "LAHV", english: "good", emoji: "👍" },
+      { armenian: "Գէշ", phonetic: "KESH", english: "bad", emoji: "👎" },
+      { armenian: "Նոր", phonetic: "NOR", english: "new", emoji: "✨" },
+      { armenian: "Հին", phonetic: "HEEN", english: "old", emoji: "🏺" },
+      { armenian: "Գեղեցիկ", phonetic: "keh-gheh-TSEEG", english: "beautiful", emoji: "🌸" },
+      { armenian: "Արագ", phonetic: "ah-RAHK", english: "fast", emoji: "🐆" },
+      { armenian: "Դանդաղ", phonetic: "tahn-TAHGH", english: "slow", emoji: "🐢" },
+      { armenian: "Երկար", phonetic: "yer-GAHR", english: "long", emoji: "📏" },
+      { armenian: "Կարճ", phonetic: "GARCH", english: "short", emoji: "✂️" },
+      { armenian: "Շատ", phonetic: "SHAHD", english: "many / very", emoji: "➕" },
+      { armenian: "Քիչ", phonetic: "KEECH", english: "few / a little", emoji: "➖" },
+    ]
+  },
+  time: {
+    name: "Time & days", icon: "🕰️", color: "#41799F",
+    words: [
+      { armenian: "Հիմա", phonetic: "HEE-mah", english: "now", emoji: "⏱️" },
+      { armenian: "Այսօր", phonetic: "ay-SOR", english: "today", emoji: "📅" },
+      { armenian: "Վաղը", phonetic: "VAH-guh", english: "tomorrow", emoji: "⏭️" },
+      { armenian: "Երէկ", phonetic: "yeh-REG", english: "yesterday", emoji: "⏮️" },
+      { armenian: "Առտու", phonetic: "ahr-DOO", english: "morning", emoji: "🌅" },
+      { armenian: "Կէսօր", phonetic: "geh-SOR", english: "noon", emoji: "☀️" },
+      { armenian: "Իրիկուն", phonetic: "ee-ree-GOON", english: "evening", emoji: "🌇" },
+      { armenian: "Գիշեր", phonetic: "kee-SHER", english: "night", emoji: "🌃" },
+      { armenian: "Օր", phonetic: "OR", english: "day", emoji: "📆" },
+      { armenian: "Շաբաթ", phonetic: "shah-PAHT", english: "week", emoji: "🗓️" },
+      { armenian: "Ամիս", phonetic: "ah-MEES", english: "month", emoji: "🌙" },
+      { armenian: "Տարի", phonetic: "dah-REE", english: "year", emoji: "🎆" },
+    ]
+  },
+  family: {
+    name: "Family", icon: "👨‍👩‍👧", color: "#3F8F82",
+    words: [
+      { armenian: "Մամա", phonetic: "MAH-mah", english: "mom", emoji: "👩" },
+      { armenian: "Պապա", phonetic: "BAH-bah", english: "dad", emoji: "👨" },
+      { armenian: "Մանուկ", phonetic: "mah-NOOG", english: "baby", emoji: "👶" },
+      { armenian: "Աղջիկ", phonetic: "ahkh-CHEEG", english: "girl / daughter", emoji: "👧" },
+      { armenian: "Տղայ", phonetic: "duh-GHAH", english: "boy / son", emoji: "👦" },
+      { armenian: "Քոյր", phonetic: "KOOYR", english: "sister", emoji: "👧" },
+      { armenian: "Եղբայր", phonetic: "yegh-PAHYR", english: "brother", emoji: "👦" },
+      { armenian: "Մեծմամա", phonetic: "medz-MAH-mah", english: "grandmother", emoji: "👵" },
+      { armenian: "Մեծպապա", phonetic: "medz-BAH-bah", english: "grandfather", emoji: "👴" },
+      { armenian: "Մօրաքոյր", phonetic: "mo-rah-KOOYR", english: "aunt (mother's sister)", emoji: "👩‍🦱" },
+      { armenian: "Քեռի", phonetic: "keh-REE", english: "uncle (mother's brother)", emoji: "🧔" },
+      { armenian: "Ընտանիք", phonetic: "un-dah-NEEK", english: "family", emoji: "👨‍👩‍👧" },
+    ]
+  },
+  food: {
+    name: "Food & drink", icon: "🍎", color: "#55915F",
+    words: [
+      { armenian: "Ջուր", phonetic: "JOOR", english: "water", emoji: "💧" },
+      { armenian: "Կաթ", phonetic: "GAHT", english: "milk", emoji: "🥛" },
+      { armenian: "Սուրճ", phonetic: "SOORJ", english: "coffee", emoji: "☕" },
+      { armenian: "Թէյ", phonetic: "TEY", english: "tea", emoji: "🍵" },
+      { armenian: "Հաց", phonetic: "HAHTS", english: "bread", emoji: "🍞" },
+      { armenian: "Լաւաշ", phonetic: "lah-VAHSH", english: "lavash", emoji: "🫓" },
+      { armenian: "Պանիր", phonetic: "bah-NEER", english: "cheese", emoji: "🧀" },
+      { armenian: "Մածուն", phonetic: "mah-DZOON", english: "yogurt", emoji: "🥣" },
+      { armenian: "Հաւկիթ", phonetic: "hav-GEET", english: "egg", emoji: "🥚" },
+      { armenian: "Միս", phonetic: "MEES", english: "meat", emoji: "🥩" },
+      { armenian: "Բրինձ", phonetic: "puh-REENDZ", english: "rice", emoji: "🍚" },
+      { armenian: "Ապուր", phonetic: "ah-BOOR", english: "soup", emoji: "🍲" },
+      { armenian: "Խնձոր", phonetic: "khun-TSOR", english: "apple", emoji: "🍎" },
+      { armenian: "Ծիրան", phonetic: "dzee-RAHN", english: "apricot", emoji: "🍑" },
+      { armenian: "Նուռ", phonetic: "NOOR", english: "pomegranate", emoji: "🍒" },
+      { armenian: "Խաղող", phonetic: "khah-GHOGH", english: "grapes", emoji: "🍇" },
+      { armenian: "Պանան", phonetic: "bah-NAHN", english: "banana", emoji: "🍌" },
+      { armenian: "Նարինջ", phonetic: "nah-REENCH", english: "orange", emoji: "🍊" },
+      { armenian: "Ձմերուկ", phonetic: "tsuh-meh-ROOG", english: "watermelon", emoji: "🍉" },
+      { armenian: "Լոլիկ", phonetic: "lo-LEEG", english: "tomato", emoji: "🍅" },
+      { armenian: "Վարունգ", phonetic: "vah-ROONG", english: "cucumber", emoji: "🥒" },
+      { armenian: "Գազար", phonetic: "kah-ZAHR", english: "carrot", emoji: "🥕" },
+      { armenian: "Աղ", phonetic: "AHGH", english: "salt", emoji: "🧂" },
+      { armenian: "Շաքար", phonetic: "shah-KAHR", english: "sugar", emoji: "🍬" },
+      { armenian: "Գաթա", phonetic: "gah-TAH", english: "gata (sweet bread)", emoji: "🥮" },
+      { armenian: "Պաղպաղակ", phonetic: "bagh-bah-GHAHG", english: "ice cream", emoji: "🍨" },
+    ]
+  },
+  animals: {
+    name: "Animals", icon: "🐾", color: "#7D5FA8",
+    words: [
+      { armenian: "Շուն", phonetic: "SHOON", english: "dog", emoji: "🐕" },
+      { armenian: "Կատու", phonetic: "ga-DOO", english: "cat", emoji: "🐱" },
+      { armenian: "Նապաստակ", phonetic: "nah-bahs-DAHG", english: "rabbit", emoji: "🐰" },
+      { armenian: "Ձի", phonetic: "TSEE", english: "horse", emoji: "🐴" },
+      { armenian: "Կով", phonetic: "GOV", english: "cow", emoji: "🐄" },
+      { armenian: "Ոչխար", phonetic: "voch-KHAR", english: "sheep", emoji: "🐑" },
+      { armenian: "Այծ", phonetic: "AYDZ", english: "goat", emoji: "🐐" },
+      { armenian: "Խոզ", phonetic: "KHOZ", english: "pig", emoji: "🐷" },
+      { armenian: "Էշ", phonetic: "ESH", english: "donkey", emoji: "🫏" },
+      { armenian: "Հաւ", phonetic: "HAV", english: "chicken", emoji: "🐔" },
+      { armenian: "Ճուտիկ", phonetic: "joo-DEEG", english: "chick", emoji: "🐥" },
+      { armenian: "Պատիկ", phonetic: "bah-DEEG", english: "duck", emoji: "🦆" },
+      { armenian: "Թռչուն", phonetic: "tuhr-CHOON", english: "bird", emoji: "🐦" },
+      { armenian: "Բու", phonetic: "POO", english: "owl", emoji: "🦉" },
+      { armenian: "Ձուկ", phonetic: "TSOOG", english: "fish", emoji: "🐟" },
+      { armenian: "Կրիա", phonetic: "guh-RYAH", english: "turtle", emoji: "🐢" },
+      { armenian: "Գորտ", phonetic: "KORD", english: "frog", emoji: "🐸" },
+      { armenian: "Մուկ", phonetic: "MOOG", english: "mouse", emoji: "🐭" },
+      { armenian: "Մեղու", phonetic: "meh-GHOO", english: "bee", emoji: "🐝" },
+      { armenian: "Թիթեռ", phonetic: "tee-TER", english: "butterfly", emoji: "🦋" },
+      { armenian: "Արջ", phonetic: "AHRCH", english: "bear", emoji: "🐻" },
+      { armenian: "Աղուէս", phonetic: "ah-GHVES", english: "fox", emoji: "🦊" },
+      { armenian: "Առիւծ", phonetic: "ah-RYOODZ", english: "lion", emoji: "🦁" },
+      { armenian: "Փիղ", phonetic: "PEEGH", english: "elephant", emoji: "🐘" },
+      { armenian: "Կապիկ", phonetic: "ga-BEEG", english: "monkey", emoji: "🐒" },
+      { armenian: "Վիշապ", phonetic: "vee-SHAHB", english: "dragon", emoji: "🐉" },
+    ]
+  },
+  body: {
+    name: "Body", icon: "🖐️", color: "#C2833B",
+    words: [
+      { armenian: "Գլուխ", phonetic: "kuh-LOOKH", english: "head", emoji: "👤" },
+      { armenian: "Մազ", phonetic: "MAHZ", english: "hair", emoji: "💇" },
+      { armenian: "Աչք", phonetic: "AHCHK", english: "eye", emoji: "👁️" },
+      { armenian: "Ականջ", phonetic: "ah-GAHNCH", english: "ear", emoji: "👂" },
+      { armenian: "Քիթ", phonetic: "KEET", english: "nose", emoji: "👃" },
+      { armenian: "Բերան", phonetic: "peh-RAHN", english: "mouth", emoji: "👄" },
+      { armenian: "Լեզու", phonetic: "leh-ZOO", english: "tongue", emoji: "👅" },
+      { armenian: "Ատամ", phonetic: "ah-DAHM", english: "tooth", emoji: "🦷" },
+      { armenian: "Ձեռք", phonetic: "TSERK", english: "hand", emoji: "✋" },
+      { armenian: "Մատ", phonetic: "MAHD", english: "finger", emoji: "☝️" },
+      { armenian: "Ուս", phonetic: "OOS", english: "shoulder", emoji: "🤷" },
+      { armenian: "Փոր", phonetic: "POR", english: "belly", emoji: "🫃" },
+      { armenian: "Ծունկ", phonetic: "DZOONG", english: "knee", emoji: "🦵" },
+      { armenian: "Ոտք", phonetic: "VODK", english: "foot", emoji: "🦶" },
+    ]
+  },
+  house: {
+    name: "Home", icon: "🏠", color: "#4C8A76",
+    words: [
+      { armenian: "Տուն", phonetic: "DOON", english: "house", emoji: "🏠" },
+      { armenian: "Դուռ", phonetic: "TOOR", english: "door", emoji: "🚪" },
+      { armenian: "Բանալի", phonetic: "pah-nah-LEE", english: "key", emoji: "🔑" },
+      { armenian: "Պատուհան", phonetic: "bah-doo-HAHN", english: "window", emoji: "🪟" },
+      { armenian: "Խոհանոց", phonetic: "kho-hah-NOTS", english: "kitchen", emoji: "🍳" },
+      { armenian: "Լոգարան", phonetic: "lo-kah-RAHN", english: "bathroom", emoji: "🛁" },
+      { armenian: "Մահճակալ", phonetic: "mah-jah-GAHL", english: "bed", emoji: "🛏️" },
+      { armenian: "Աթոռ", phonetic: "ah-TOR", english: "chair", emoji: "🪑" },
+      { armenian: "Սեղան", phonetic: "seh-GHAHN", english: "table", emoji: "🪑" },
+      { armenian: "Լամբար", phonetic: "lahm-BAHR", english: "lamp", emoji: "💡" },
+      { armenian: "Գաւաթ", phonetic: "kah-VAHT", english: "cup", emoji: "☕" },
+      { armenian: "Պնակ", phonetic: "buh-NAHG", english: "plate", emoji: "🍽️" },
+      { armenian: "Դգալ", phonetic: "tuh-KAHL", english: "spoon", emoji: "🥄" },
+      { armenian: "Դանակ", phonetic: "tah-NAHG", english: "knife", emoji: "🔪" },
+      { armenian: "Հեռաձայն", phonetic: "heh-rah-TSAYN", english: "phone", emoji: "📱" },
+    ]
+  },
+  nature: {
+    name: "Nature & weather", icon: "🌿", color: "#3F8F82",
+    words: [
+      { armenian: "Արեւ", phonetic: "ah-REV", english: "sun", emoji: "☀️" },
+      { armenian: "Լուսին", phonetic: "loo-SEEN", english: "moon", emoji: "🌙" },
+      { armenian: "Աստղ", phonetic: "AHSDGH", english: "star", emoji: "⭐" },
+      { armenian: "Երկինք", phonetic: "yer-GEENK", english: "sky", emoji: "🌌" },
+      { armenian: "Ամպ", phonetic: "AHMB", english: "cloud", emoji: "☁️" },
+      { armenian: "Անձրեւ", phonetic: "ahn-TSREV", english: "rain", emoji: "🌧️" },
+      { armenian: "Ձիւն", phonetic: "TSYOON", english: "snow", emoji: "❄️" },
+      { armenian: "Հով", phonetic: "HOV", english: "wind", emoji: "🌬️" },
+      { armenian: "Տաք", phonetic: "DAHK", english: "hot", emoji: "🔥" },
+      { armenian: "Պաղ", phonetic: "BAHGH", english: "cold", emoji: "🧊" },
+      { armenian: "Ծառ", phonetic: "DZAHR", english: "tree", emoji: "🌳" },
+      { armenian: "Ծաղիկ", phonetic: "dzah-GHEEG", english: "flower", emoji: "🌸" },
+      { armenian: "Լեռ", phonetic: "LER", english: "mountain", emoji: "⛰️" },
+      { armenian: "Ծով", phonetic: "DZOV", english: "sea", emoji: "🌊" },
+    ]
+  },
+  actions: {
+    name: "Verbs", icon: "🏃", color: "#AC4F4A",
+    words: [
+      { armenian: "Ուտել", phonetic: "oo-DEL", english: "to eat", emoji: "🍽️" },
+      { armenian: "Խմել", phonetic: "khuh-MEL", english: "to drink", emoji: "🥤" },
+      { armenian: "Քնանալ", phonetic: "kuh-nah-NAHL", english: "to sleep", emoji: "😴" },
+      { armenian: "Քալել", phonetic: "kah-LEL", english: "to walk", emoji: "🚶" },
+      { armenian: "Վազել", phonetic: "vah-ZEL", english: "to run", emoji: "🏃" },
+      { armenian: "Ցատկել", phonetic: "tsahd-GEL", english: "to jump", emoji: "🤸" },
+      { armenian: "Նստիլ", phonetic: "nuhs-DEEL", english: "to sit", emoji: "🪑" },
+      { armenian: "Կենալ", phonetic: "geh-NAHL", english: "to stand / stay", emoji: "🧍" },
+      { armenian: "Խօսիլ", phonetic: "kho-SEEL", english: "to speak", emoji: "🗣️" },
+      { armenian: "Լսել", phonetic: "luh-SEL", english: "to listen", emoji: "👂" },
+      { armenian: "Նայիլ", phonetic: "nah-YEEL", english: "to look", emoji: "👀" },
+      { armenian: "Կարդալ", phonetic: "gahr-TAHL", english: "to read", emoji: "📖" },
+      { armenian: "Գրել", phonetic: "kuh-REL", english: "to write", emoji: "✍️" },
+      { armenian: "Տալ", phonetic: "DAHL", english: "to give", emoji: "🤲" },
+      { armenian: "Առնել", phonetic: "ahr-NEL", english: "to take", emoji: "🫳" },
+      { armenian: "Երգել", phonetic: "yer-KEL", english: "to sing", emoji: "🎤" },
+      { armenian: "Պարել", phonetic: "bah-REL", english: "to dance", emoji: "💃" },
+      { armenian: "Խաղալ", phonetic: "khah-GHAHL", english: "to play", emoji: "🎮" },
+    ]
+  },
+  colors: {
+    name: "Colors", icon: "🎨", color: "#C06249",
+    words: [
+      { armenian: "Կարմիր", phonetic: "gar-MEER", english: "red", emoji: "🔴" },
+      { armenian: "Կապոյտ", phonetic: "ga-BOYD", english: "blue", emoji: "🔵" },
+      { armenian: "Դեղին", phonetic: "te-GHEEN", english: "yellow", emoji: "🟡" },
+      { armenian: "Կանաչ", phonetic: "ga-NAHCH", english: "green", emoji: "🟢" },
+      { armenian: "Մանիշակագոյն", phonetic: "mah-nee-shah-ga-KOYN", english: "purple", emoji: "🟣" },
+      { armenian: "Վարդագոյն", phonetic: "var-ta-ka-KOYN", english: "pink", emoji: "🩷" },
+      { armenian: "Նարնջագոյն", phonetic: "nahr-un-cha-KOYN", english: "orange", emoji: "🟠" },
+      { armenian: "Շագանակագոյն", phonetic: "shah-kah-nah-ga-KOYN", english: "brown", emoji: "🟤" },
+      { armenian: "Սեւ", phonetic: "SEV", english: "black", emoji: "⚫" },
+      { armenian: "Ճերմակ", phonetic: "JER-mahg", english: "white", emoji: "⚪" },
+    ]
+  },
+  numbers: {
+    name: "Numbers", icon: "🔢", color: "#C4763C",
+    words: [
+      { armenian: "Մէկ", phonetic: "MEG", english: "one (1)", emoji: "1️⃣" },
+      { armenian: "Երկու", phonetic: "yer-GOO", english: "two (2)", emoji: "2️⃣" },
+      { armenian: "Երեք", phonetic: "ye-REK", english: "three (3)", emoji: "3️⃣" },
+      { armenian: "Չորս", phonetic: "CHORS", english: "four (4)", emoji: "4️⃣" },
+      { armenian: "Հինգ", phonetic: "HEENK", english: "five (5)", emoji: "5️⃣" },
+      { armenian: "Վեց", phonetic: "VETS", english: "six (6)", emoji: "6️⃣" },
+      { armenian: "Եօթը", phonetic: "YO-tuh", english: "seven (7)", emoji: "7️⃣" },
+      { armenian: "Ութը", phonetic: "OO-tuh", english: "eight (8)", emoji: "8️⃣" },
+      { armenian: "Ինը", phonetic: "EE-nuh", english: "nine (9)", emoji: "9️⃣" },
+      { armenian: "Տասը", phonetic: "DAH-suh", english: "ten (10)", emoji: "🔟" },
+      { armenian: "Տասնմէկ", phonetic: "dahs-nuh-MEG", english: "eleven (11)", emoji: "1️⃣1️⃣" },
+      { armenian: "Տասներկու", phonetic: "dahs-ner-GOO", english: "twelve (12)", emoji: "1️⃣2️⃣" },
+      { armenian: "Քսան", phonetic: "kuh-SAHN", english: "twenty (20)", emoji: "2️⃣0️⃣" },
+      { armenian: "Հարիւր", phonetic: "hah-REEUR", english: "one hundred (100)", emoji: "💯" },
+    ]
+  },
+  clothes: {
+    name: "Clothes", icon: "👕", color: "#4A7DAD",
+    words: [
+      { armenian: "Շապիկ", phonetic: "shah-BEEG", english: "shirt", emoji: "👕" },
+      { armenian: "Տաբատ", phonetic: "dah-BAHD", english: "pants", emoji: "👖" },
+      { armenian: "Շրջազգեստ", phonetic: "shur-chahz-KEST", english: "dress", emoji: "👗" },
+      { armenian: "Վերարկու", phonetic: "veh-rahr-GOO", english: "coat", emoji: "🧥" },
+      { armenian: "Գլխարկ", phonetic: "kuhl-KHAHRG", english: "hat", emoji: "🧢" },
+      { armenian: "Կօշիկ", phonetic: "GO-sheeg", english: "shoes", emoji: "👟" },
+      { armenian: "Գուլպայ", phonetic: "KOOL-bah", english: "socks", emoji: "🧦" },
+      { armenian: "Ձեռնոց", phonetic: "tser-NOTS", english: "gloves", emoji: "🧤" },
+      { armenian: "Ակնոց", phonetic: "ahg-NOTS", english: "glasses", emoji: "👓" },
+    ]
+  },
+  toys: {
+    name: "Toys", icon: "🧸", color: "#C25B72",
+    words: [
+      { armenian: "Խաղալիք", phonetic: "khah-ghah-LEEK", english: "toy", emoji: "🧸" },
+      { armenian: "Գնդակ", phonetic: "kn-TAG", english: "ball", emoji: "⚽" },
+      { armenian: "Տիկնիկ", phonetic: "deeg-NEEG", english: "doll", emoji: "🪆" },
+      { armenian: "Գիրք", phonetic: "KEERK", english: "book", emoji: "📖" },
+      { armenian: "Մատիտ", phonetic: "mah-DEED", english: "pencil / crayon", emoji: "✏️" },
+      { armenian: "Խորանարդիկ", phonetic: "kho-rah-nahr-DEEG", english: "blocks", emoji: "🧱" },
+      { armenian: "Փուչիկ", phonetic: "poo-CHEEG", english: "balloon", emoji: "🎈" },
+    ]
+  },
+  transport: {
+    name: "Getting around", icon: "🚗", color: "#8F5586",
+    words: [
+      { armenian: "Ինքնաշարժ", phonetic: "eenk-nah-SHAHRJ", english: "car", emoji: "🚗" },
+      { armenian: "Հանրակառք", phonetic: "hahn-rah-GAHRK", english: "bus", emoji: "🚌" },
+      { armenian: "Հրշէջ ինքնաշարժ", phonetic: "hur-SHECH eenk-nah-SHAHRJ", english: "fire truck", emoji: "🚒" },
+      { armenian: "Գնացք", phonetic: "kuh-NAHTSK", english: "train", emoji: "🚂" },
+      { armenian: "Օդանաւ", phonetic: "o-tah-NAHV", english: "airplane", emoji: "✈️" },
+      { armenian: "Նաւակ", phonetic: "nah-VAHG", english: "boat", emoji: "⛵" },
+      { armenian: "Հեծանիւ", phonetic: "heh-dzah-NEEV", english: "bicycle", emoji: "🚲" },
+    ]
+  },
+  shapes: {
+    name: "Shapes", icon: "🔷", color: "#486E9C",
+    words: [
+      { armenian: "Շրջանակ", phonetic: "shur-chah-NAHG", english: "circle", emoji: "🔵" },
+      { armenian: "Քառակուսի", phonetic: "kah-rah-goo-SEE", english: "square", emoji: "🟥" },
+      { armenian: "Եռանկիւն", phonetic: "yeh-rahn-GYOON", english: "triangle", emoji: "🔺" },
+      { armenian: "Աստղ", phonetic: "AHSDGH", english: "star", emoji: "⭐" },
+      { armenian: "Սիրտ", phonetic: "SEERD", english: "heart", emoji: "❤️" },
+    ]
+  },
 };
 
-// ── ARMENIAN ALPHABET ────────────────────────────────────────────
+// ── ALPHABET (39 letters) ─────────────────────────────────────────
 const alphabet = [
-  { upper: "\u0531", lower: "\u0561", name: "ayb", sound: "ah" },
-  { upper: "\u0532", lower: "\u0562", name: "pen", sound: "b/p" },
-  { upper: "\u0533", lower: "\u0563", name: "kim", sound: "g/k" },
-  { upper: "\u0534", lower: "\u0564", name: "ta", sound: "d/t" },
-  { upper: "\u0535", lower: "\u0565", name: "yech", sound: "ye/eh" },
-  { upper: "\u0536", lower: "\u0566", name: "za", sound: "z" },
-  { upper: "\u0537", lower: "\u0567", name: "eh", sound: "eh" },
-  { upper: "\u0538", lower: "\u0568", name: "uht", sound: "uh" },
-  { upper: "\u0539", lower: "\u0569", name: "to", sound: "t" },
-  { upper: "\u053A", lower: "\u056A", name: "zhe", sound: "zh" },
-  { upper: "\u053B", lower: "\u056B", name: "ini", sound: "ee" },
-  { upper: "\u053C", lower: "\u056C", name: "lyun", sound: "l" },
-  { upper: "\u053D", lower: "\u056D", name: "khe", sound: "kh" },
-  { upper: "\u053E", lower: "\u056E", name: "dza", sound: "dz" },
-  { upper: "\u053F", lower: "\u056F", name: "gen", sound: "g" },
-  { upper: "\u0540", lower: "\u0570", name: "ho", sound: "h" },
-  { upper: "\u0541", lower: "\u0571", name: "tsa", sound: "ts" },
-  { upper: "\u0542", lower: "\u0572", name: "ghad", sound: "gh" },
-  { upper: "\u0543", lower: "\u0573", name: "jeh", sound: "j" },
-  { upper: "\u0544", lower: "\u0574", name: "men", sound: "m" },
-  { upper: "\u0545", lower: "\u0575", name: "hee", sound: "y" },
-  { upper: "\u0546", lower: "\u0576", name: "nu", sound: "n" },
-  { upper: "\u0547", lower: "\u0577", name: "sha", sound: "sh" },
-  { upper: "\u0548", lower: "\u0578", name: "vo", sound: "v/o" },
-  { upper: "\u0549", lower: "\u0579", name: "cha", sound: "ch" },
-  { upper: "\u054A", lower: "\u057A", name: "beh", sound: "p/b" },
-  { upper: "\u054B", lower: "\u057B", name: "jeh", sound: "j" },
-  { upper: "\u054C", lower: "\u057C", name: "ra", sound: "r (rolled)" },
-  { upper: "\u054D", lower: "\u057D", name: "seh", sound: "s" },
-  { upper: "\u054E", lower: "\u057E", name: "vev", sound: "v" },
-  { upper: "\u054F", lower: "\u057F", name: "tyun", sound: "d" },
-  { upper: "\u0550", lower: "\u0580", name: "reh", sound: "r (soft)" },
-  { upper: "\u0551", lower: "\u0581", name: "tso", sound: "ts" },
-  { upper: "\u0552", lower: "\u0582", name: "hyun", sound: "oo" },
-  { upper: "\u0553", lower: "\u0583", name: "pyur", sound: "p" },
-  { upper: "\u0554", lower: "\u0584", name: "keh", sound: "k" },
-  { upper: "\u0555", lower: "\u0585", name: "oh", sound: "o" },
-  { upper: "\u0556", lower: "\u0586", name: "feh", sound: "f" },
-  { upper: "\u0587", lower: "\u0587", name: "yev", sound: "ev" },
-];
+  ["Ա","ա","ayp","ah"],["Բ","բ","pen","p"],["Գ","գ","kim","k"],["Դ","դ","ta","t"],
+  ["Ե","ե","yech","ye / e"],["Զ","զ","za","z"],["Է","է","eh","eh"],["Ը","ը","ut","uh"],
+  ["Թ","թ","to","t"],["Ժ","ժ","zhe","zh"],["Ի","ի","ini","ee"],["Լ","լ","lyun","l"],
+  ["Խ","խ","khe","kh"],["Ծ","ծ","dza","dz"],["Կ","կ","gen","g"],["Հ","հ","ho","h"],
+  ["Ձ","ձ","tsa","ts"],["Ղ","ղ","ghat","gh"],["Ճ","ճ","je","j"],["Մ","մ","men","m"],
+  ["Յ","յ","hi","h / y"],["Ն","ն","nu","n"],["Շ","շ","sha","sh"],["Ո","ո","vo","vo / o"],
+  ["Չ","չ","cha","ch"],["Պ","պ","be","b"],["Ջ","ջ","che","ch"],["Ռ","ռ","ra","rr"],
+  ["Ս","ս","se","s"],["Վ","վ","vev","v"],["Տ","տ","dyun","d"],["Ր","ր","re","r"],
+  ["Ց","ց","tso","ts"],["Ւ","ւ","hyun","v / oo"],["Փ","փ","pyur","p"],["Ք","ք","ke","k"],
+  ["Օ","օ","o","o"],["Ֆ","ֆ","fe","f"],["ԵՒ","եւ","yev","yev"],
+].map(([upper, lower, name, sound]) => ({ upper, lower, name, sound }));
+
+// ── STORAGE (safe — never throws) ────────────────────────────────
+const STORE_KEY = "armenian-progress-v1";
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || null; } catch { return null; } },
+  set(v) { try { localStorage.setItem(STORE_KEY, JSON.stringify(v)); } catch {} },
+};
+const progress = store.get() || { best: {}, studied: {} };
+
+function markStudied(catKey, idx) {
+  const set = new Set(progress.studied[catKey] || []);
+  if (set.has(idx)) return;
+  set.add(idx);
+  progress.studied[catKey] = [...set];
+  store.set(progress);
+}
+function studiedCount(catKey) { return (progress.studied[catKey] || []).length; }
+function totalStudied() { return Object.values(progress.studied).reduce((n, a) => n + a.length, 0); }
+function saveBest(catKey, score, total) {
+  const b = progress.best[catKey];
+  if (!b || score / total > b.score / b.total) {
+    progress.best[catKey] = { score, total };
+    store.set(progress);
+  }
+}
 
 // ── STATE ────────────────────────────────────────────────────────
 let state = {
   mode: "home",
-  selectedCategory: null,
-  currentIndex: 0,
-  score: 0,
-  quizAnswers: [],
-  selectedAnswer: null,
-  searchQuery: "",
+  cat: null,
+  deck: [],
+  pos: 0,
+  shuffle: false,
+  hideTranslation: false,
+  revealed: false,
+  quizType: "pron",
   quizOptions: [],
+  selectedAnswer: null,
+  score: 0,
+  searchQuery: "",
 };
-
 const app = document.getElementById("app");
 
-// ── TEXT-TO-SPEECH (ElevenLabs via Netlify Function) ─────────────
+// ── HELPERS ──────────────────────────────────────────────────────
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+const shuffleArr = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(x => x[1]);
+const allWords = () => Object.entries(categories).flatMap(([key, c]) =>
+  c.words.map((w, i) => ({ ...w, catKey: key, idx: i, category: c.name, catColor: c.color })));
+const totalWords = () => Object.values(categories).reduce((n, c) => n + c.words.length, 0);
+
+function buildDeck() {
+  const words = categories[state.cat].words.map((w, i) => ({ ...w, idx: i }));
+  state.deck = state.shuffle ? shuffleArr(words) : words;
+  state.pos = 0;
+  state.revealed = false;
+}
+
+function phraseOfDay() {
+  const list = categories.dailyPhrases.words;
+  const now = new Date();
+  const day = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+  return list[day % list.length];
+}
+
+// ── TEXT-TO-SPEECH (ElevenLabs via Netlify Function, cached) ─────
 const audioCache = {};
 let currentAudio = null;
+let toastTimer = null;
+
+function toast(msg) {
+  let el = document.getElementById("toast");
+  if (!el) { el = document.createElement("div"); el.id = "toast"; el.setAttribute("role", "status"); document.body.appendChild(el); }
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 3200);
+}
 
 async function speak(text, btnEl) {
-  // Show loading state
-  if (btnEl) {
-    btnEl.textContent = "\u23F3";
-    btnEl.style.pointerEvents = "none";
-  }
-
-  // Stop any currently playing audio
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-  }
-
+  if (btnEl) { btnEl.textContent = "⏳"; btnEl.disabled = true; }
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   try {
-    // Check cache first
     if (!audioCache[text]) {
       const res = await fetch("/.netlify/functions/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
       });
-
-      if (!res.ok) throw new Error("TTS request failed");
-
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.audio) {
+        throw new Error(data.error ? `${data.error}${data.details ? " — " + data.details : ""}` : `HTTP ${res.status}`);
+      }
       audioCache[text] = "data:audio/mpeg;base64," + data.audio;
     }
-
-    // Play cached audio
     currentAudio = new Audio(audioCache[text]);
     currentAudio.playbackRate = 0.85;
     await currentAudio.play();
   } catch (err) {
-    console.warn("ElevenLabs TTS failed, falling back to Web Speech:", err);
-    // Fallback to Web Speech API
-    if (window.speechSynthesis) {
+    console.warn("Audio failed:", err);
+    // Only fall back to the browser voice if it actually has Armenian; otherwise say so.
+    const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+    const hy = voices.find(v => v.lang.toLowerCase().startsWith("hy"));
+    if (hy) {
       window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      const voices = window.speechSynthesis.getVoices();
-      utter.voice = voices.find(v => v.lang.startsWith("hy")) || voices.find(v => v.lang.startsWith("ru")) || voices[0];
-      utter.rate = 0.75;
-      window.speechSynthesis.speak(utter);
+      const u = new SpeechSynthesisUtterance(text);
+      u.voice = hy; u.rate = 0.75;
+      window.speechSynthesis.speak(u);
+    } else {
+      toast("Audio unavailable — " + (String(err.message).includes("fetch") ? "no connection to the audio service." : err.message).slice(0, 140));
     }
   } finally {
-    // Restore button
-    if (btnEl) {
-      btnEl.textContent = "\uD83D\uDD0A";
-      btnEl.style.pointerEvents = "auto";
-    }
+    if (btnEl) { btnEl.textContent = "🔊"; btnEl.disabled = false; }
   }
 }
-window.speechSynthesis?.getVoices();
+if (window.speechSynthesis) { window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices(); }
 
-// ── HELPERS ──────────────────────────────────────────────────────
-function speakerBtn(text, size) {
-  size = size || 28;
-  return `<button class="speaker-btn" onclick="event.stopPropagation();speak('${text.replace(/'/g, "\\'")}', this)" style="font-size:${size}px" title="Listen">\uD83D\uDD0A</button>`;
-}
-
-function getAllWords() {
-  const all = [];
-  for (const [key, cat] of Object.entries(categories)) {
-    for (const w of cat.words) {
-      all.push({ ...w, category: cat.name, catKey: key, catColor: cat.color });
-    }
-  }
-  return all;
-}
-
-function generateQuizOptions(words, index) {
-  const correct = words[index];
-  const allPhonetics = getAllWords().map(w => w.phonetic);
-  const wrong = allPhonetics
-    .filter(p => p !== correct.phonetic)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 2);
-  return [correct.phonetic, ...wrong].sort(() => Math.random() - 0.5);
-}
-
-function goHome() {
-  state = { mode: "home", selectedCategory: null, currentIndex: 0, score: 0, quizAnswers: [], selectedAnswer: null, searchQuery: "", quizOptions: [] };
-  render();
+function speakerBtn(text, size = 22) {
+  const safe = text.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+  return `<button class="speaker-btn" aria-label="Listen" title="Listen" style="font-size:${size}px" onclick="event.stopPropagation();speak('${safe}', this)">🔊</button>`;
 }
 
 // ── RENDER ───────────────────────────────────────────────────────
 function render() {
   const s = state;
-  const cat = s.selectedCategory ? categories[s.selectedCategory] : null;
-  const words = cat ? cat.words : [];
-  const word = words[s.currentIndex];
+  const cat = s.cat ? categories[s.cat] : null;
+  const card = s.deck[s.pos];
+  let h = "";
 
-  let html = "";
-
-  // Header
-  html += `<div class="app-header">`;
-  if (s.mode !== "home") {
-    html += `<button class="home-btn" onclick="goHome()">\u2190 Home</button>`;
-  }
-  html += `<h1>Armine's Western Armenian</h1>`;
-  html += `<p class="subtitle">\u0540\u0561\u0575\u0565\u0580\u0567\u0576 \u2022 Learn & Play</p>`;
-  html += `</div>`;
-  html += `<div class="container">`;
+  h += `<header class="app-header"><div class="header-inner">`;
+  h += `<button class="brand" onclick="goHome()" aria-label="Home"><span class="brand-mark">Ա</span><span class="brand-text">Armine's Western Armenian</span></button>`;
+  h += `<nav class="header-nav">`;
+  h += `<button class="nav-link ${s.mode === "home" ? "active" : ""}" onclick="goHome()">Learn</button>`;
+  h += `<button class="nav-link ${s.mode === "search" ? "active" : ""}" onclick="state.mode='search';render()">Lookup</button>`;
+  h += `<button class="nav-link ${s.mode === "alphabet" ? "active" : ""}" onclick="state.mode='alphabet';render()">Alphabet</button>`;
+  h += `</nav></div></header><main class="container">`;
 
   // ─── HOME ───
   if (s.mode === "home") {
-    html += `<div class="anim-float">`;
-    html += `<div class="nav-row">`;
-    html += `<button class="nav-btn" onclick="state.mode='search';render()">\uD83D\uDD0D Word Lookup</button>`;
-    html += `<button class="nav-btn" onclick="state.mode='alphabet';render()">\uD83D\uDD24 Alphabet</button>`;
-    html += `</div>`;
-    html += `<h2 class="section-title">Choose a Category</h2>`;
-    html += `<div class="cat-grid">`;
+    const p = phraseOfDay();
+    const studied = totalStudied();
+    h += `<div class="anim-float">`;
+    h += `<section class="hero" aria-label="Phrase of the day">`;
+    h += `<div class="hero-eyebrow">Phrase of the day</div>`;
+    h += `<div class="hero-armenian">${esc(p.armenian)}</div>`;
+    h += `<div class="hero-row"><span class="hero-phonetic">${esc(p.phonetic)}</span>${speakerBtn(p.armenian, 24)}</div>`;
+    h += `<div class="hero-english">${esc(p.english)}</div>`;
+    h += `</section>`;
+
+
+    h += `<div class="section-head"><h2 class="section-title">Categories</h2>`;
+    h += `<span class="section-meta">${studied > 0 ? `${studied} of ${totalWords()} words studied` : `${totalWords()} words`}</span></div>`;
+    h += `<div class="cat-grid">`;
     for (const [key, c] of Object.entries(categories)) {
-      html += `<div class="cat-card" onclick="state.selectedCategory='${key}';state.mode='category';render()" style="--cat-color:${c.color}">`;
-      html += `<div class="emoji">${c.icon}</div>`;
-      html += `<div class="name" style="color:${c.color}">${c.name}</div>`;
-      html += `<div class="count">${c.words.length} words</div>`;
-      html += `</div>`;
+      const n = studiedCount(key), tot = c.words.length, best = progress.best[key];
+      h += `<div class="cat-card" role="button" tabindex="0" style="--cat-color:${c.color}" onclick="openCategory('${key}')" onkeydown="if(event.key==='Enter')openCategory('${key}')">`;
+      h += `<div class="icon" style="background:${c.color}1A">${c.icon}</div>`;
+      h += `<div class="name">${esc(c.name)}</div>`;
+      h += `<div class="count">${tot} words${best ? ` · best ${best.score}/${best.total}` : ""}</div>`;
+      h += `<div class="studied" aria-hidden="true"><span style="width:${(n / tot) * 100}%"></span></div>`;
+      h += `</div>`;
     }
-    html += `</div></div>`;
+    h += `</div></div>`;
   }
 
-  // ─── CATEGORY DETAIL ───
+  // ─── CATEGORY ───
   else if (s.mode === "category" && cat) {
-    html += `<div class="cat-detail anim-float">`;
-    html += `<div class="big-emoji">${cat.icon}</div>`;
-    html += `<h2 style="color:${cat.color}">${cat.name}</h2>`;
-    html += `<p class="word-count">${cat.words.length} words to explore</p>`;
-    html += `<div class="cat-buttons">`;
-    html += `<button class="btn-learn" style="background:${cat.color};box-shadow:0 4px 16px ${cat.color}44" onclick="state.mode='flashcard';state.currentIndex=0;render()">\uD83D\uDCDA Learn</button>`;
-    html += `<button class="btn-quiz" style="color:${cat.color}" onclick="startQuiz()">\uD83C\uDFAF Quiz</button>`;
-    html += `</div>`;
-    html += `<button class="back-link" onclick="goHome()">\u2190 Back to Categories</button>`;
-    html += `</div>`;
+    const n = studiedCount(s.cat), tot = cat.words.length, best = progress.best[s.cat];
+    h += `<div class="cat-detail anim-float">`;
+    h += `<div class="big-icon" style="background:${cat.color}1A">${cat.icon}</div>`;
+    h += `<h2>${esc(cat.name)}</h2>`;
+    h += `<p class="word-count">${tot} words · ${n} studied${best ? ` · best quiz ${best.score}/${best.total}` : ""}</p>`;
+    h += `<div class="cat-buttons">`;
+    h += `<button class="btn-primary" onclick="startLearn()">Start learning</button>`;
+    h += `<button class="btn-secondary" onclick="startQuiz('pron')">Pronunciation quiz</button>`;
+    h += `<button class="btn-secondary" onclick="startQuiz('meaning')">Meaning quiz</button>`;
+    h += `</div>`;
+    h += `<button class="back-link" onclick="goHome()">← All categories</button>`;
+    h += `</div>`;
   }
 
   // ─── FLASHCARD ───
-  else if (s.mode === "flashcard" && word) {
-    html += `<div class="anim-slide" style="text-align:center">`;
-    html += `<div class="progress-label" style="color:${cat.color}">${cat.icon} ${cat.name.toUpperCase()} \u2014 ${s.currentIndex + 1} / ${words.length}</div>`;
-    html += `<div class="progress-bar"><div class="progress-fill" style="width:${((s.currentIndex + 1) / words.length) * 100}%;background:${cat.color}"></div></div>`;
-    html += `<div class="flashcard">`;
-    html += `<div class="emoji">${word.emoji}</div>`;
-    html += `<div class="armenian">${word.armenian} ${speakerBtn(word.armenian, 22)}</div>`;
-    html += `<div class="phonetic" style="color:${cat.color};background:${cat.color}18">${word.phonetic}</div>`;
-    html += `<div class="english">${word.english}</div>`;
-    html += `</div>`;
-    // Nav
-    html += `<div class="card-nav">`;
-    html += `<button class="btn-prev" style="color:${cat.color}" ${s.currentIndex === 0 ? "disabled" : ""} onclick="state.currentIndex--;render()">\u2190 Prev</button>`;
-    html += `<button class="btn-next" style="background:${cat.color};box-shadow:0 4px 12px ${cat.color}44" ${s.currentIndex >= words.length - 1 ? "disabled" : ""} onclick="state.currentIndex++;render()">Next \u2192</button>`;
-    html += `</div>`;
-    html += `<button class="back-link" onclick="state.mode='category';state.currentIndex=0;render()">\u2190 Back to ${cat.name}</button>`;
-    html += `</div>`;
+  else if (s.mode === "flashcard" && card) {
+    markStudied(s.cat, card.idx);
+    const hidden = s.hideTranslation && !s.revealed;
+    h += `<div class="anim-slide" style="text-align:center">`;
+    h += `<div class="progress-label">${esc(cat.name)} <span>${s.pos + 1} / ${s.deck.length}</span></div>`;
+    h += `<div class="progress-bar"><div class="progress-fill" style="width:${((s.pos + 1) / s.deck.length) * 100}%;background:${cat.color}"></div></div>`;
+    h += `<div class="toolbar">`;
+    h += `<button class="toggle ${s.shuffle ? "on" : ""}" aria-pressed="${s.shuffle}" onclick="toggleShuffle()">Shuffle</button>`;
+    h += `<button class="toggle ${s.hideTranslation ? "on" : ""}" aria-pressed="${s.hideTranslation}" onclick="toggleHide()">Hide translation</button>`;
+    h += `</div>`;
+    h += `<div class="flashcard ${hidden ? "is-hidden" : ""}" role="button" tabindex="0" onclick="cardTap()" onkeydown="if(event.key==='Enter')cardTap()">`;
+    h += `<div class="icon" style="background:${cat.color}1A">${card.emoji}</div>`;
+    h += `<div class="armenian">${esc(card.armenian)} ${speakerBtn(card.armenian, 22)}</div>`;
+    if (hidden) {
+      h += `<div class="reveal-hint">Tap to reveal</div>`;
+    } else {
+      h += `<div class="phonetic">${esc(card.phonetic)}</div>`;
+      h += `<div class="english">${esc(card.english)}</div>`;
+    }
+    h += `</div>`;
+    h += `<div class="card-nav">`;
+    h += `<button class="btn-prev" ${s.pos === 0 ? "disabled" : ""} onclick="prevCard()">← Previous</button>`;
+    h += `<button class="btn-next" ${s.pos >= s.deck.length - 1 ? "disabled" : ""} onclick="nextCard()">Next →</button>`;
+    h += `</div>`;
+    h += `<div class="kbd-hint">← → to move · space to listen</div>`;
+    h += `<button class="back-link" onclick="state.mode='category';render()">← Back to ${esc(cat.name)}</button>`;
+    h += `</div>`;
   }
 
   // ─── QUIZ ───
-  else if (s.mode === "quiz" && word) {
-    html += `<div class="anim-pop" style="text-align:center">`;
-    html += `<div class="progress-label" style="color:${cat.color}">\uD83C\uDFAF QUIZ \u2014 ${s.currentIndex + 1} / ${words.length}</div>`;
-    html += `<div class="progress-bar"><div class="progress-fill" style="width:${((s.currentIndex + 1) / words.length) * 100}%;background:${cat.color}"></div></div>`;
-    html += `<div class="quiz-card">`;
-    html += `<div class="emoji">${word.emoji}</div>`;
-    html += `<div class="armenian">${word.armenian} ${speakerBtn(word.armenian, 20)}</div>`;
-    html += `<p class="prompt">Which pronunciation is correct?</p>`;
-    html += `<div class="quiz-options">`;
-    for (const opt of s.quizOptions) {
-      const isCorrect = opt === word.phonetic;
-      const isSelected = s.selectedAnswer === opt;
+  else if (s.mode === "quiz" && card) {
+    const key = s.quizType === "pron" ? "phonetic" : "english";
+    h += `<div class="anim-pop" style="text-align:center">`;
+    h += `<div class="progress-label">${s.quizType === "pron" ? "Pronunciation quiz" : "Meaning quiz"} <span>${s.pos + 1} / ${s.deck.length}</span></div>`;
+    h += `<div class="progress-bar"><div class="progress-fill" style="width:${((s.pos + 1) / s.deck.length) * 100}%;background:${cat.color}"></div></div>`;
+    h += `<div class="quiz-card">`;
+    if (s.quizType === "pron") h += `<div class="icon" style="background:${cat.color}1A">${card.emoji}</div>`;
+    h += `<div class="armenian">${esc(card.armenian)} ${speakerBtn(card.armenian, 20)}</div>`;
+    if (s.quizType === "meaning") h += `<div class="quiz-phonetic">${esc(card.phonetic)}</div>`;
+    h += `<p class="prompt">${s.quizType === "pron" ? "Which pronunciation is correct?" : "What does it mean?"}</p>`;
+    h += `<div class="quiz-options">`;
+    s.quizOptions.forEach((opt, i) => {
+      const isCorrect = opt === card[key], isSel = s.selectedAnswer === opt;
       let cls = "quiz-option";
       if (s.selectedAnswer !== null) {
-        cls += " answered";
-        if (isCorrect) cls += " correct";
-        else if (isSelected && !isCorrect) cls += " wrong";
-        else cls += " dimmed";
+        cls += " answered" + (isCorrect ? " correct" : isSel ? " wrong" : " dimmed");
       }
-      const suffix = s.selectedAnswer !== null ? (isCorrect ? " \u2705" : (isSelected && !isCorrect ? " \u274C" : "")) : "";
-      html += `<button class="${cls}" onclick="handleQuizAnswer('${opt.replace(/'/g, "\\'")}')">${opt}${suffix}</button>`;
-    }
-    html += `</div></div>`;
-    html += `<div class="quiz-score-badge" style="color:${cat.color}">Score: ${s.score} / ${s.currentIndex + (s.selectedAnswer !== null ? 1 : 0)}</div>`;
-    html += `</div>`;
+      h += `<button class="${cls}" onclick="answer(${i})"><span class="key">${i + 1}</span>${esc(opt)}</button>`;
+    });
+    h += `</div></div>`;
+    h += `<div class="quiz-score-badge">Score ${s.score} / ${s.pos + (s.selectedAnswer !== null ? 1 : 0)}</div>`;
+    h += `</div>`;
   }
 
   // ─── RESULTS ───
-  else if (s.mode === "results") {
-    const total = words.length;
-    const emoji = s.score === total ? "\uD83C\uDF89" : s.score >= total * 0.5 ? "\uD83C\uDF1F" : "\uD83D\uDCAA";
-    const msg = s.score === total ? "Perfect Score!" : s.score >= total * 0.5 ? "Great Job!" : "Keep Practicing!";
-    html += `<div class="anim-pop">`;
-    html += `<div class="results-card">`;
-    html += `<div class="big-emoji">${emoji}</div>`;
-    html += `<h2>${msg}</h2>`;
-    html += `<div class="score" style="color:${cat.color}">${s.score} / ${total}</div>`;
-    html += `<p class="label">${cat.name} Quiz Complete</p>`;
-    html += `<div class="results-buttons">`;
-    html += `<button class="btn-retry" style="background:${cat.color}" onclick="startQuiz()">\uD83D\uDD04 Try Again</button>`;
-    html += `<button class="btn-home" onclick="goHome()">\uD83C\uDFE0 Back Home</button>`;
-    html += `</div></div></div>`;
+  else if (s.mode === "results" && cat) {
+    const total = s.deck.length, best = progress.best[s.cat];
+    const pct = s.score / total;
+    const emoji = pct === 1 ? "🎉" : pct >= 0.7 ? "🌟" : "💪";
+    const msg = pct === 1 ? "Perfect" : pct >= 0.7 ? "Well done — Ապրիս!" : "Keep going";
+    h += `<div class="anim-pop"><div class="results-card">`;
+    h += `<div class="big-emoji">${emoji}</div>`;
+    h += `<h2>${msg}</h2>`;
+    h += `<div class="score">${s.score} / ${total}</div>`;
+    h += `<p class="label">${esc(cat.name)} · ${s.quizType === "pron" ? "pronunciation" : "meaning"}${best ? ` · best ${best.score}/${best.total}` : ""}</p>`;
+    h += `<div class="results-buttons">`;
+    h += `<button class="btn-primary" onclick="startQuiz('${s.quizType}')">Try again</button>`;
+    h += `<button class="btn-secondary" onclick="state.mode='category';render()">Back to ${esc(cat.name)}</button>`;
+    h += `</div></div></div>`;
   }
 
   // ─── SEARCH ───
   else if (s.mode === "search") {
-    const allWords = getAllWords();
-    const q = s.searchQuery.toLowerCase();
-    const filtered = q ? allWords.filter(w =>
-      w.english.toLowerCase().includes(q) ||
-      w.armenian.includes(s.searchQuery) ||
-      w.phonetic.toLowerCase().includes(q)
-    ) : allWords;
-
-    html += `<div class="anim-float">`;
-    html += `<h2 class="section-title">\uD83D\uDD0D Word Lookup</h2>`;
-    html += `<input class="search-input" type="text" placeholder="Search English, Armenian, or phonetic..." value="${s.searchQuery}" oninput="state.searchQuery=this.value;render()" />`;
-    html += `<div class="search-count">${filtered.length} result${filtered.length !== 1 ? "s" : ""}</div>`;
-    html += `<div class="search-results">`;
-    if (filtered.length === 0) {
-      html += `<div class="no-results">No results found \uD83D\uDE15</div>`;
-    } else {
-      for (const w of filtered) {
-        html += `<div class="search-item">`;
-        html += `<span class="emoji">${w.emoji}</span>`;
-        html += `<div class="info">`;
-        html += `<div class="arm-row"><span class="armenian">${w.armenian}</span>${speakerBtn(w.armenian, 16)}</div>`;
-        html += `<div class="phonetic">${w.phonetic}</div>`;
-        html += `<div class="english">${w.english}</div>`;
-        html += `</div>`;
-        html += `<span class="tag" style="background:${w.catColor}20;color:${w.catColor}">${w.category}</span>`;
-        html += `</div>`;
-      }
+    const q = s.searchQuery.trim().toLowerCase();
+    const list = allWords();
+    const results = q ? list.filter(w =>
+      w.english.toLowerCase().includes(q) || w.armenian.includes(s.searchQuery.trim()) || w.phonetic.toLowerCase().includes(q)
+    ) : list;
+    h += `<div class="anim-float">`;
+    h += `<div class="page-head"><h2 class="page-title">Word lookup</h2><p class="page-desc">Search all ${totalWords()} words in English, Armenian, or phonetic spelling.</p></div>`;
+    h += `<input class="search-input" type="search" placeholder="Search English, Armenian, or phonetic…" value="${esc(s.searchQuery)}" oninput="state.searchQuery=this.value;render()" autocomplete="off" />`;
+    h += `<div class="search-count">${results.length} ${results.length === 1 ? "word" : "words"}</div>`;
+    h += `<div class="search-results">`;
+    if (!results.length) h += `<div class="no-results">No matches. Try a different spelling.</div>`;
+    for (const w of results) {
+      h += `<div class="search-item">`;
+      h += `<span class="emoji">${w.emoji}</span>`;
+      h += `<div class="info"><div class="arm-row"><span class="armenian">${esc(w.armenian)}</span>${speakerBtn(w.armenian, 16)}</div>`;
+      h += `<div class="phonetic">${esc(w.phonetic)}</div><div class="english">${esc(w.english)}</div></div>`;
+      h += `<span class="tag" style="background:${w.catColor}1F;color:${w.catColor}">${esc(w.category)}</span>`;
+      h += `</div>`;
     }
-    html += `</div></div>`;
+    h += `</div></div>`;
   }
 
   // ─── ALPHABET ───
   else if (s.mode === "alphabet") {
-    html += `<div class="anim-float">`;
-    html += `<h2 class="section-title">\uD83D\uDD24 Armenian Alphabet</h2>`;
-    html += `<p class="alpha-desc">39 letters \u2014 tap any letter to hear it</p>`;
-    html += `<div class="alpha-grid">`;
-    for (const letter of alphabet) {
-      html += `<div class="alpha-card" onclick="speak('${letter.upper}')">`;
-      html += `<div class="letters">${letter.upper} ${letter.lower}</div>`;
-      html += `<div class="letter-name">${letter.name}</div>`;
-      html += `<div class="letter-sound">"${letter.sound}"</div>`;
-      html += `<div class="speaker">\uD83D\uDD0A</div>`;
-      html += `</div>`;
+    h += `<div class="anim-float">`;
+    h += `<div class="page-head"><h2 class="page-title">The Armenian alphabet</h2><p class="page-desc">39 letters with Western pronunciation. Tap a letter to hear it.</p></div>`;
+    h += `<div class="alpha-grid">`;
+    for (const l of alphabet) {
+      h += `<div class="alpha-card" role="button" tabindex="0" aria-label="${l.name}" onclick="speak('${l.upper}')" onkeydown="if(event.key==='Enter')speak('${l.upper}')">`;
+      h += `<div class="letters">${l.upper} ${l.lower}</div>`;
+      h += `<div class="letter-name">${l.name}</div>`;
+      h += `<div class="letter-sound">${esc(l.sound)}</div>`;
+      h += `</div>`;
     }
-    html += `</div></div>`;
+    h += `</div></div>`;
   }
 
-  html += `</div>`; // close container
-  app.innerHTML = html;
+  h += `</main>`;
+  app.innerHTML = h;
 
-  // Preserve search focus
   if (s.mode === "search") {
     const input = app.querySelector(".search-input");
-    if (input) {
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-    }
+    if (input) { input.focus(); input.setSelectionRange(input.value.length, input.value.length); }
   }
+  try { window.scrollTo({ top: 0 }); } catch {}
 }
 
-// ── QUIZ FUNCTIONS ───────────────────────────────────────────────
-function startQuiz() {
-  const words = categories[state.selectedCategory].words;
-  state.mode = "quiz";
-  state.currentIndex = 0;
-  state.score = 0;
-  state.quizAnswers = [];
-  state.selectedAnswer = null;
-  state.quizOptions = generateQuizOptions(words, 0);
+// ── ACTIONS ──────────────────────────────────────────────────────
+function goHome() {
+  state.mode = "home"; state.cat = null; state.searchQuery = ""; render();
+}
+function openCategory(key) {
+  state.cat = key; state.mode = "category"; render();
+}
+function startLearn() {
+  buildDeck(); state.mode = "flashcard"; render();
+}
+function toggleShuffle() {
+  state.shuffle = !state.shuffle; buildDeck(); render();
+}
+function toggleHide() {
+  state.hideTranslation = !state.hideTranslation; state.revealed = false; render();
+}
+function cardTap() {
+  if (state.hideTranslation && !state.revealed) { state.revealed = true; render(); return; }
+  const card = state.deck[state.pos];
+  if (card) speak(card.armenian, app.querySelector(".flashcard .speaker-btn"));
+}
+function nextCard() {
+  if (state.pos < state.deck.length - 1) { state.pos++; state.revealed = false; render(); }
+}
+function prevCard() {
+  if (state.pos > 0) { state.pos--; state.revealed = false; render(); }
+}
+
+function makeOptions(card, type) {
+  const key = type === "pron" ? "phonetic" : "english";
+  const correct = card[key];
+  const same = [...new Set(categories[state.cat].words.map(w => w[key]).filter(v => v !== correct))];
+  let wrongs = shuffleArr(same).slice(0, 2);
+  if (wrongs.length < 2) {
+    const global = [...new Set(allWords().map(w => w[key]).filter(v => v !== correct && !wrongs.includes(v)))];
+    wrongs = wrongs.concat(shuffleArr(global).slice(0, 2 - wrongs.length));
+  }
+  return shuffleArr([correct, ...wrongs]);
+}
+function startQuiz(type) {
+  state.quizType = type;
+  state.shuffle = true; buildDeck();
+  state.mode = "quiz"; state.score = 0; state.selectedAnswer = null;
+  state.quizOptions = makeOptions(state.deck[0], type);
   render();
 }
-
-function handleQuizAnswer(answer) {
+function answer(i) {
   if (state.selectedAnswer !== null) return;
-  const words = categories[state.selectedCategory].words;
-  const correct = words[state.currentIndex].phonetic;
-  const isCorrect = answer === correct;
-  state.selectedAnswer = answer;
-  if (isCorrect) state.score++;
-  state.quizAnswers.push({ answer, correct: isCorrect });
+  const opt = state.quizOptions[i];
+  if (opt === undefined) return;
+  const card = state.deck[state.pos];
+  const key = state.quizType === "pron" ? "phonetic" : "english";
+  state.selectedAnswer = opt;
+  if (opt === card[key]) state.score++;
   render();
-
   setTimeout(() => {
-    if (state.currentIndex + 1 < words.length) {
-      state.currentIndex++;
-      state.selectedAnswer = null;
-      state.quizOptions = generateQuizOptions(words, state.currentIndex);
+    if (state.pos + 1 < state.deck.length) {
+      state.pos++; state.selectedAnswer = null;
+      state.quizOptions = makeOptions(state.deck[state.pos], state.quizType);
     } else {
+      saveBest(state.cat, state.score, state.deck.length);
       state.mode = "results";
     }
     render();
-  }, 1200);
+  }, 1100);
 }
+
+// ── KEYBOARD ─────────────────────────────────────────────────────
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") return;
+  if (state.mode === "flashcard") {
+    if (e.key === "ArrowRight") nextCard();
+    else if (e.key === "ArrowLeft") prevCard();
+    else if (e.key === " ") { e.preventDefault(); cardTap(); }
+  } else if (state.mode === "quiz" && /^[1-3]$/.test(e.key)) {
+    answer(Number(e.key) - 1);
+  } else if (e.key === "Escape" && state.mode !== "home") {
+    goHome();
+  }
+});
 
 // ── INIT ─────────────────────────────────────────────────────────
 render();
