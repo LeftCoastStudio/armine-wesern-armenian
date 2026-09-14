@@ -77,6 +77,53 @@ const categories = {
       { armenian: "Քանի՞", phonetic: "kah-NEE", english: "how many / how much", emoji: "🔢" },
     ]
   },
+  pronouns: {
+    name: "Pronouns & little words", icon: "🧩", color: "#5F7F9E",
+    words: [
+      { armenian: "Ես", phonetic: "YES", english: "I", emoji: "🙋" },
+      { armenian: "Դուն", phonetic: "TOON", english: "you (one person)", emoji: "👉" },
+      { armenian: "Ան", phonetic: "AHN", english: "he / she", emoji: "👤" },
+      { armenian: "Մենք", phonetic: "MENK", english: "we", emoji: "👥" },
+      { armenian: "Դուք", phonetic: "TOOK", english: "you (plural / polite)", emoji: "👥" },
+      { armenian: "Անոնք", phonetic: "ah-NONK", english: "they", emoji: "👥" },
+      { armenian: "Ասիկա", phonetic: "ah-see-GAH", english: "this", emoji: "☝️" },
+      { armenian: "Ատիկա", phonetic: "ah-dee-GAH", english: "that (near you)", emoji: "👉" },
+      { armenian: "Անիկա", phonetic: "ah-nee-GAH", english: "that (over there)", emoji: "👉" },
+      { armenian: "Հոս", phonetic: "HOS", english: "here", emoji: "📍" },
+      { armenian: "Հոն", phonetic: "HON", english: "there", emoji: "📍" },
+      { armenian: "Եւ", phonetic: "YEV", english: "and", emoji: "➕" },
+      { armenian: "Բայց", phonetic: "PAHYTS", english: "but", emoji: "↔️" },
+      { armenian: "Կամ", phonetic: "GAHM", english: "or", emoji: "🔀" },
+      { armenian: "Որովհետեւ", phonetic: "vo-rov-heh-DEV", english: "because", emoji: "💡" },
+      { armenian: "Ալ", phonetic: "AHL", english: "also / too", emoji: "➕" },
+      { armenian: "Հետ", phonetic: "HED", english: "with", emoji: "🤝" },
+      { armenian: "Առանց", phonetic: "ah-RAHNTS", english: "without", emoji: "🚫" },
+      { armenian: "Միայն", phonetic: "mee-AYN", english: "only", emoji: "☝️" },
+    ]
+  },
+  verbforms: {
+    name: "Useful verb forms", icon: "🔑", color: "#B2653E",
+    words: [
+      { armenian: "Կ'ուզեմ", phonetic: "goo-ZEM", english: "I want", emoji: "🙏" },
+      { armenian: "Կը սիրեմ", phonetic: "guh see-REM", english: "I love / I like", emoji: "❤️" },
+      { armenian: "Կ'երթամ", phonetic: "ger-TAHM", english: "I go", emoji: "🚶" },
+      { armenian: "Կու գամ", phonetic: "goo KAHM", english: "I come", emoji: "👋" },
+      { armenian: "Կ'ընեմ", phonetic: "guh-NEM", english: "I do / I make", emoji: "🛠️" },
+      { armenian: "Գիտեմ", phonetic: "kee-DEM", english: "I know", emoji: "💡" },
+      { armenian: "Չեմ գիտեր", phonetic: "CHEM kee-DER", english: "I don't know", emoji: "🤷" },
+      { armenian: "Կրնամ", phonetic: "guhr-NAHM", english: "I can", emoji: "💪" },
+      { armenian: "Չեմ կրնար", phonetic: "CHEM guhr-NAHR", english: "I can't", emoji: "🙅" },
+      { armenian: "Ունիմ", phonetic: "oo-NEEM", english: "I have", emoji: "🎁" },
+      { armenian: "Չունիմ", phonetic: "choo-NEEM", english: "I don't have", emoji: "🚫" },
+      { armenian: "Պէտք է", phonetic: "BEDK eh", english: "must / need to", emoji: "✅" },
+      { armenian: "Կ'ապրիմ", phonetic: "gahb-REEM", english: "I live", emoji: "🏠" },
+      { armenian: "Կ'աշխատիմ", phonetic: "gahsh-khah-DEEM", english: "I work", emoji: "💼" },
+      { armenian: "Կը խօսիմ", phonetic: "guh kho-SEEM", english: "I speak", emoji: "🗣️" },
+      { armenian: "Կ'ուտեմ", phonetic: "goo-DEM", english: "I eat", emoji: "🍽️" },
+      { armenian: "Կը խմեմ", phonetic: "guh khuh-MEM", english: "I drink", emoji: "🥤" },
+      { armenian: "Կը մտածեմ", phonetic: "guh muh-dah-DZEM", english: "I think", emoji: "🤔" },
+    ]
+  },
   feelings: {
     name: "Feelings", icon: "😊", color: "#C25B72",
     words: [
@@ -124,10 +171,65 @@ const categories = {
       { armenian: "Շաբաթ", phonetic: "shah-PAHT", english: "week", emoji: "🗓️" },
       { armenian: "Ամիս", phonetic: "ah-MEES", english: "month", emoji: "🌙" },
       { armenian: "Տարի", phonetic: "dah-REE", english: "year", emoji: "🎆" },
+      { armenian: "Ժամ", phonetic: "ZHAHM", english: "hour / time", emoji: "⏰" },
+      { armenian: "Վայրկեան", phonetic: "vahyr-GYAHN", english: "minute", emoji: "⏱️" },
+      { armenian: "Երկուշաբթի", phonetic: "yer-goo-shahp-TEE", english: "Monday", emoji: "📅" },
+      { armenian: "Երեքշաբթի", phonetic: "yeh-rek-shahp-TEE", english: "Tuesday", emoji: "📅" },
+      { armenian: "Չորեքշաբթի", phonetic: "cho-rek-shahp-TEE", english: "Wednesday", emoji: "📅" },
+      { armenian: "Հինգշաբթի", phonetic: "heenk-shahp-TEE", english: "Thursday", emoji: "📅" },
+      { armenian: "Ուրբաթ", phonetic: "oor-PAHT", english: "Friday", emoji: "📅" },
+      { armenian: "Շաբաթ", phonetic: "shah-PAHT", english: "Saturday", emoji: "📅" },
+      { armenian: "Կիրակի", phonetic: "gee-rah-GEE", english: "Sunday", emoji: "📅" },
+      { armenian: "Միշտ", phonetic: "MEESHD", english: "always", emoji: "♾️" },
+      { armenian: "Երբեք", phonetic: "yer-PEK", english: "never", emoji: "🚫" },
+      { armenian: "Երբեմն", phonetic: "yer-PEMN", english: "sometimes", emoji: "🔁" },
+      { armenian: "Կանուխ", phonetic: "gah-NOOKH", english: "early", emoji: "🌅" },
+      { armenian: "Ուշ", phonetic: "OOSH", english: "late", emoji: "🌙" },
+    ]
+  },
+  town: {
+    name: "Around town", icon: "🏙️", color: "#4E8A9A",
+    words: [
+      { armenian: "Խանութ", phonetic: "khah-NOOT", english: "store / shop", emoji: "🛒" },
+      { armenian: "Շուկայ", phonetic: "shoo-GAH", english: "market", emoji: "🧺" },
+      { armenian: "Դպրոց", phonetic: "tuhb-ROTS", english: "school", emoji: "🏫" },
+      { armenian: "Եկեղեցի", phonetic: "yeh-geh-gheh-TSEE", english: "church", emoji: "⛪" },
+      { armenian: "Հիւանդանոց", phonetic: "hee-vahn-tah-NOTS", english: "hospital", emoji: "🏥" },
+      { armenian: "Դեղարան", phonetic: "teh-ghah-RAHN", english: "pharmacy", emoji: "💊" },
+      { armenian: "Ճաշարան", phonetic: "jah-shah-RAHN", english: "restaurant", emoji: "🍽️" },
+      { armenian: "Սրճարան", phonetic: "suhr-jah-RAHN", english: "café", emoji: "☕" },
+      { armenian: "Փողոց", phonetic: "po-GHOTS", english: "street", emoji: "🛣️" },
+      { armenian: "Քաղաք", phonetic: "kah-GHAHK", english: "city", emoji: "🏙️" },
+      { armenian: "Գիւղ", phonetic: "KYOOGH", english: "village", emoji: "🏡" },
+      { armenian: "Պարտէզ", phonetic: "bahr-DEZ", english: "garden / park", emoji: "🌳" },
+      { armenian: "Ծովափ", phonetic: "dzo-VAHP", english: "beach", emoji: "🏖️" },
+      { armenian: "Օդակայան", phonetic: "o-tah-gah-YAHN", english: "airport", emoji: "✈️" },
+      { armenian: "Գրասենեակ", phonetic: "kuh-rah-seh-NYAHG", english: "office", emoji: "🏢" },
+      { armenian: "Դրամատուն", phonetic: "tuh-rah-mah-DOON", english: "bank", emoji: "🏦" },
+      { armenian: "Գրադարան", phonetic: "kuh-rah-tah-RAHN", english: "library", emoji: "📚" },
+    ]
+  },
+  money: {
+    name: "Shopping & money", icon: "💵", color: "#6B8E4E",
+    words: [
+      { armenian: "Դրամ", phonetic: "tuh-RAHM", english: "money", emoji: "💵" },
+      { armenian: "Գին", phonetic: "KEEN", english: "price", emoji: "🏷️" },
+      { armenian: "Աժան", phonetic: "ah-ZHAHN", english: "cheap", emoji: "🪙" },
+      { armenian: "Սուղ", phonetic: "SOOGH", english: "expensive", emoji: "💎" },
+      { armenian: "Գնել", phonetic: "kuh-NEL", english: "to buy", emoji: "🛍️" },
+      { armenian: "Ծախել", phonetic: "dzah-KHEL", english: "to sell", emoji: "🏷️" },
+      { armenian: "Վճարել", phonetic: "vuh-jah-REL", english: "to pay", emoji: "💳" },
+      { armenian: "Հաշիւ", phonetic: "hah-SHEEV", english: "bill / account", emoji: "🧾" },
+      { armenian: "Գործ", phonetic: "KORDZ", english: "work / job", emoji: "💼" },
+      { armenian: "Աշխատիլ", phonetic: "ahsh-khah-DEEL", english: "to work", emoji: "👷" },
+      { armenian: "Բաց", phonetic: "PAHTS", english: "open", emoji: "🔓" },
+      { armenian: "Գոց", phonetic: "KOTS", english: "closed", emoji: "🔒" },
+      { armenian: "Ազատ", phonetic: "ah-ZAHD", english: "free / available", emoji: "🆓" },
+      { armenian: "Նուէր", phonetic: "nuh-VER", english: "gift", emoji: "🎁" },
     ]
   },
   family: {
-    name: "Family", icon: "👨‍👩‍👧", color: "#3F8F82",
+    name: "Family & people", icon: "👨‍👩‍👧", color: "#3F8F82",
     words: [
       { armenian: "Մամա", phonetic: "MAH-mah", english: "mom", emoji: "👩" },
       { armenian: "Պապա", phonetic: "BAH-bah", english: "dad", emoji: "👨" },
@@ -141,6 +243,11 @@ const categories = {
       { armenian: "Մօրաքոյր", phonetic: "mo-rah-KOOYR", english: "aunt (mother's sister)", emoji: "👩‍🦱" },
       { armenian: "Քեռի", phonetic: "keh-REE", english: "uncle (mother's brother)", emoji: "🧔" },
       { armenian: "Ընտանիք", phonetic: "un-dah-NEEK", english: "family", emoji: "👨‍👩‍👧" },
+      { armenian: "Ամուսին", phonetic: "ah-moo-SEEN", english: "husband", emoji: "🤵" },
+      { armenian: "Կին", phonetic: "GEEN", english: "wife / woman", emoji: "👩" },
+      { armenian: "Մարդ", phonetic: "MAHRT", english: "man / person", emoji: "🧑" },
+      { armenian: "Ընկեր", phonetic: "un-GER", english: "friend", emoji: "🫂" },
+      { armenian: "Դրացի", phonetic: "tuh-rah-TSEE", english: "neighbor", emoji: "🏘️" },
     ]
   },
   food: {
@@ -172,6 +279,22 @@ const categories = {
       { armenian: "Շաքար", phonetic: "shah-KAHR", english: "sugar", emoji: "🍬" },
       { armenian: "Գաթա", phonetic: "gah-TAH", english: "gata (sweet bread)", emoji: "🥮" },
       { armenian: "Պաղպաղակ", phonetic: "bagh-bah-GHAHG", english: "ice cream", emoji: "🍨" },
+      { armenian: "Գետնախնձոր", phonetic: "ked-nah-khun-TSOR", english: "potato", emoji: "🥔" },
+      { armenian: "Սոխ", phonetic: "SOKH", english: "onion", emoji: "🧅" },
+      { armenian: "Սխտոր", phonetic: "suhkh-DOR", english: "garlic", emoji: "🧄" },
+      { armenian: "Պղպեղ", phonetic: "buh-GHBEGH", english: "pepper", emoji: "🌶️" },
+      { armenian: "Կիտրոն", phonetic: "gee-DRON", english: "lemon", emoji: "🍋" },
+      { armenian: "Լուբիա", phonetic: "loo-pee-AH", english: "beans", emoji: "🫘" },
+      { armenian: "Ընկոյզ", phonetic: "un-GOOYZ", english: "walnut", emoji: "🌰" },
+      { armenian: "Մեղր", phonetic: "MEGHR", english: "honey", emoji: "🍯" },
+      { armenian: "Կարագ", phonetic: "gah-RAHK", english: "butter", emoji: "🧈" },
+      { armenian: "Ձէթ", phonetic: "TSET", english: "oil (olive oil)", emoji: "🫒" },
+      { armenian: "Հիւթ", phonetic: "HYOOT", english: "juice", emoji: "🧃" },
+      { armenian: "Գինի", phonetic: "kee-NEE", english: "wine", emoji: "🍷" },
+      { armenian: "Գարեջուր", phonetic: "kah-reh-CHOOR", english: "beer", emoji: "🍺" },
+      { armenian: "Խորոված", phonetic: "kho-ro-VAHDZ", english: "barbecue / kebab", emoji: "🍢" },
+      { armenian: "Տոլմա", phonetic: "dol-MAH", english: "dolma", emoji: "🍃" },
+      { armenian: "Փիլաւ", phonetic: "pee-LAHV", english: "pilaf", emoji: "🥘" },
     ]
   },
   animals: {
@@ -206,7 +329,7 @@ const categories = {
     ]
   },
   body: {
-    name: "Body", icon: "🖐️", color: "#C2833B",
+    name: "Body & health", icon: "🖐️", color: "#C2833B",
     words: [
       { armenian: "Գլուխ", phonetic: "kuh-LOOKH", english: "head", emoji: "👤" },
       { armenian: "Մազ", phonetic: "MAHZ", english: "hair", emoji: "💇" },
@@ -222,6 +345,10 @@ const categories = {
       { armenian: "Փոր", phonetic: "POR", english: "belly", emoji: "🫃" },
       { armenian: "Ծունկ", phonetic: "DZOONG", english: "knee", emoji: "🦵" },
       { armenian: "Ոտք", phonetic: "VODK", english: "foot", emoji: "🦶" },
+      { armenian: "Բժիշկ", phonetic: "puh-ZHEESHG", english: "doctor", emoji: "🩺" },
+      { armenian: "Դեղ", phonetic: "TEGH", english: "medicine", emoji: "💊" },
+      { armenian: "Ցաւ", phonetic: "TSAHV", english: "pain", emoji: "🤕" },
+      { armenian: "Հարբուխ", phonetic: "hahr-POOKH", english: "a cold", emoji: "🤧" },
     ]
   },
   house: {
@@ -242,6 +369,11 @@ const categories = {
       { armenian: "Դգալ", phonetic: "tuh-KAHL", english: "spoon", emoji: "🥄" },
       { armenian: "Դանակ", phonetic: "tah-NAHG", english: "knife", emoji: "🔪" },
       { armenian: "Հեռաձայն", phonetic: "heh-rah-TSAYN", english: "phone", emoji: "📱" },
+      { armenian: "Համակարգիչ", phonetic: "hah-mah-gahr-KEECH", english: "computer", emoji: "💻" },
+      { armenian: "Սառնարան", phonetic: "sahr-nah-RAHN", english: "refrigerator", emoji: "🧊" },
+      { armenian: "Սանդուղք", phonetic: "sahn-TOOGHK", english: "stairs", emoji: "🪜" },
+      { armenian: "Պատ", phonetic: "BAHD", english: "wall", emoji: "🧱" },
+      { armenian: "Յատակ", phonetic: "hah-DAHG", english: "floor", emoji: "⬜" },
     ]
   },
   nature: {
@@ -317,7 +449,15 @@ const categories = {
       { armenian: "Տասնմէկ", phonetic: "dahs-nuh-MEG", english: "eleven (11)", emoji: "1️⃣1️⃣" },
       { armenian: "Տասներկու", phonetic: "dahs-ner-GOO", english: "twelve (12)", emoji: "1️⃣2️⃣" },
       { armenian: "Քսան", phonetic: "kuh-SAHN", english: "twenty (20)", emoji: "2️⃣0️⃣" },
+      { armenian: "Երեսուն", phonetic: "yeh-reh-SOON", english: "thirty (30)", emoji: "3️⃣0️⃣" },
+      { armenian: "Քառասուն", phonetic: "kah-rah-SOON", english: "forty (40)", emoji: "4️⃣0️⃣" },
+      { armenian: "Յիսուն", phonetic: "hee-SOON", english: "fifty (50)", emoji: "5️⃣0️⃣" },
+      { armenian: "Վաթսուն", phonetic: "vaht-SOON", english: "sixty (60)", emoji: "6️⃣0️⃣" },
+      { armenian: "Եօթանասուն", phonetic: "yo-tah-nah-SOON", english: "seventy (70)", emoji: "7️⃣0️⃣" },
+      { armenian: "Ութսուն", phonetic: "oot-SOON", english: "eighty (80)", emoji: "8️⃣0️⃣" },
+      { armenian: "Իննսուն", phonetic: "een-SOON", english: "ninety (90)", emoji: "9️⃣0️⃣" },
       { armenian: "Հարիւր", phonetic: "hah-REEUR", english: "one hundred (100)", emoji: "💯" },
+      { armenian: "Հազար", phonetic: "hah-ZAHR", english: "one thousand (1000)", emoji: "🔢" },
     ]
   },
   clothes: {
@@ -332,6 +472,9 @@ const categories = {
       { armenian: "Գուլպայ", phonetic: "KOOL-bah", english: "socks", emoji: "🧦" },
       { armenian: "Ձեռնոց", phonetic: "tser-NOTS", english: "gloves", emoji: "🧤" },
       { armenian: "Ակնոց", phonetic: "ahg-NOTS", english: "glasses", emoji: "👓" },
+      { armenian: "Բաճկոն", phonetic: "pahch-GON", english: "jacket", emoji: "🧥" },
+      { armenian: "Պայուսակ", phonetic: "bah-yoo-SAHG", english: "bag / purse", emoji: "👜" },
+      { armenian: "Ժամացոյց", phonetic: "zhah-mah-TSOOYTS", english: "watch / clock", emoji: "⌚" },
     ]
   },
   toys: {
