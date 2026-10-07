@@ -1,0 +1,44 @@
+name: Word correction
+description: A word, spelling, or pronunciation in the app is wrong.
+title: "Correction: "
+labels: ["vocabulary"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Corrections from Western Armenian speakers are the most valuable thing this project receives.
+  - type: input
+    id: word
+    attributes:
+      label: Which word?
+      description: Copy it as it appears in the app (Armenian, phonetic, or English — any is fine).
+      placeholder: "Հաւկիթ — hav-GEET — egg"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong?
+      multiple: true
+      options:
+        - Armenian spelling
+        - Pronunciation (phonetic)
+        - English meaning
+        - This is Eastern Armenian, not Western
+        - Wrong emoji
+        - It should be removed
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: What should it be?
+      description: Write the correct Armenian, phonetic, or meaning. A note on who says it this way (region, family) helps too.
+    validations:
+      required: true
+  - type: input
+    id: speaker
+    attributes:
+      label: Your background (optional)
+      placeholder: "Native speaker, Beirut Armenian; or heritage learner"
