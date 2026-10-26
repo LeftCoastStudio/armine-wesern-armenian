@@ -46,7 +46,7 @@ const DECK_ART = {
 const PICTURE_DECKS = new Set(["animals", "food", "body", "house", "nature", "colors", "clothes", "toys", "transport", "shapes", "family", "numbers"]);
 
 const slugOf = w => String(w.english).toLowerCase().split(/\s*[\/(]/)[0].trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-const SPRITE = "img/art.svg";
+const SPRITE = "img/art.svg?v=2";
 const art = slug => `<svg class="art" viewBox="0 0 120 120" aria-hidden="true"><use href="${window.__SPRITE_INLINE__ ? "" : SPRITE}#${slug}"></use></svg>`;
 const tint = hex => `${hex}26`;
 
