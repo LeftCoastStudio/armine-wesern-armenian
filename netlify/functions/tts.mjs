@@ -1,11 +1,36 @@
 // Netlify serverless function — proxies TTS requests to ElevenLabs.
 // Set ELEVENLABS_API_KEY in Netlify → Site configuration → Environment variables.
+// Optional: ELEVENLABS_VOICE_ID to use a voice from your library instead of the default.
 //
-//   POST /.netlify/functions/tts   body: { "text": "Բարեւ" }   → { "audio": "<base64 mp3>", "model": "eleven_v3" }
+//   POST /.netlify/functions/tts   body: { "text": "Բարեւ" }   → { "audio": "<base64 mp3>", "model": "eleven_v3", "spoken": "Փարեվ" }
 //   GET  /.netlify/functions/tts?text=Բարեւ                    → plays the mp3 directly (handy for testing in a browser tab)
+//   add  raw=1 (GET) or "raw": true (POST) to send the text to the voice exactly as written
+//
+// The voice model learned Eastern Armenian, so Armenian text is respelled before it is
+// sent (see ../lib/pronounce.mjs): the learner sees "Բարեւ", the voice is handed "Փարեվ"
+// and says "parev". A single letter is spoken by its Western name (Բ → "pen").
 
-const VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // "Rachel" — swap for any voice_id from your ElevenLabs library
+import { westernArmenianForSpeech } from "../lib/pronounce.mjs";
+
+const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM"; // "Rachel" — any voice_id from your ElevenLabs library works
 const MODELS = ["eleven_v3", "eleven_multilingual_v2"]; // v3 speaks Armenian; v2 is a last-resort fallback
+
+// Letter names in classical spelling; after respelling the voice says the Western name.
+const LETTER_NAMES = {
+  "Ա": "այբ", "Բ": "բեն", "Գ": "գիմ", "Դ": "դա", "Ե": "եչ", "Զ": "զա", "Է": "է", "Ը": "ըթ", "Թ": "թօ", "Ժ": "ժէ",
+  "Ի": "ինի", "Լ": "լիւն", "Խ": "խէ", "Ծ": "ծա", "Կ": "կեն", "Հ": "հօ", "Ձ": "ձա", "Ղ": "ղատ", "Ճ": "ճէ", "Մ": "մեն",
+  "Յ": "յի", "Ն": "նու", "Շ": "շա", "Ո": "ո", "Չ": "չա", "Պ": "պէ", "Ջ": "ջէ", "Ռ": "ռա", "Ս": "սէ", "Վ": "վեւ",
+  "Տ": "տիւն", "Ր": "րէ", "Ց": "ցօ", "Ւ": "հիւն", "Փ": "փիւր", "Ք": "քէ", "Օ": "օ", "Ֆ": "ֆէ", "ԵՒ": "եւ", "և": "եւ",
+};
+
+// What the voice is handed for a given display text.
+export function speechText(text, raw = false) {
+  const t = String(text || "").trim();
+  if (raw || !t) return t;
+  const key = t.length <= 2 ? t.toUpperCase() : t;
+  if (LETTER_NAMES[key]) return westernArmenianForSpeech(LETTER_NAMES[key]);
+  return westernArmenianForSpeech(t);
+}
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -47,11 +72,17 @@ export async function handler(event) {
   if (!apiKey) return json(500, { error: "ELEVENLABS_API_KEY is not set in Netlify environment variables" });
 
   let text = "";
+  let raw = false;
   if (event.httpMethod === "GET") {
-    text = (event.queryStringParameters && event.queryStringParameters.text) || "";
+    const q = event.queryStringParameters || {};
+    text = q.text || "";
+    raw = q.raw === "1" || q.raw === "true";
   } else if (event.httpMethod === "POST") {
-    try { text = (JSON.parse(event.body || "{}").text || ""); }
-    catch { return json(400, { error: "Invalid JSON body" }); }
+    try {
+      const body = JSON.parse(event.body || "{}");
+      text = body.text || "";
+      raw = body.raw === true;
+    } catch { return json(400, { error: "Invalid JSON body" }); }
   } else {
     return json(405, { error: "Method not allowed" });
   }
@@ -59,9 +90,10 @@ export async function handler(event) {
   text = String(text).trim();
   if (!text) return json(400, { error: "Missing text. Try /.netlify/functions/tts?text=Բարեւ" });
   if (text.length > 300) return json(400, { error: "Text too long" });
+  const spoken = speechText(text, raw);
 
   try {
-    const { model, audio } = await synthesize(apiKey, text);
+    const { model, audio } = await synthesize(apiKey, spoken);
     if (event.httpMethod === "GET") {
       return {
         statusCode: 200,
@@ -73,7 +105,7 @@ export async function handler(event) {
     return {
       statusCode: 200,
       headers: { ...CORS, "Content-Type": "application/json", "Cache-Control": "public, max-age=86400" },
-      body: JSON.stringify({ audio: audio.toString("base64"), model }),
+      body: JSON.stringify({ audio: audio.toString("base64"), model, spoken }),
     };
   } catch (err) {
     return json(err.status || 502, {
